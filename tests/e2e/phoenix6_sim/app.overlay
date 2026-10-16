@@ -1,0 +1,11 @@
+/*
+ * Copyright (c) 2026 CANBusRP2040 contributors
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The bridge link is the second pseudo terminal of native_sim.
+ */
+
+phoenix6_uart: &uart1 {
+	status = "okay";
+};

@@ -4,3 +4,4 @@
 rsource "slcan/Kconfig"
 rsource "frc_can/Kconfig"
 rsource "kraken/Kconfig"
+rsource "phoenix6/Kconfig"

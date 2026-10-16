@@ -36,9 +36,12 @@ struct slcan_uart {
 	atomic_t started;
 };
 
-static struct slcan_uart slcan_uart;
+static struct slcan_uart slcan_uarts[CONFIG_SLCAN_UART_INSTANCES];
 
-static K_THREAD_STACK_DEFINE(slcan_uart_stack, CONFIG_SLCAN_UART_THREAD_STACK_SIZE);
+static K_THREAD_STACK_ARRAY_DEFINE(slcan_uart_stacks, CONFIG_SLCAN_UART_INSTANCES,
+				   CONFIG_SLCAN_UART_THREAD_STACK_SIZE);
+
+static K_MUTEX_DEFINE(slcan_uart_lock);
 
 static void slcan_uart_isr(const struct device *dev, void *user_data)
 {
@@ -169,13 +172,35 @@ static void slcan_uart_thread(void *p1, void *p2, void *p3)
 int slcan_uart_start(const struct device *uart, const struct device *can, slcan_event_cb_t cb,
 		     void *user_data)
 {
-	struct slcan_uart *su = &slcan_uart;
+	struct slcan_uart *su = NULL;
+	char name[16];
+	size_t idx = 0;
 	k_tid_t tid;
 	int err;
 
-	if (!atomic_cas(&su->started, 0, 1)) {
-		return -EALREADY;
+	k_mutex_lock(&slcan_uart_lock, K_FOREVER);
+	for (size_t i = 0; i < ARRAY_SIZE(slcan_uarts); i++) {
+		if (atomic_get(&slcan_uarts[i].started) && slcan_uarts[i].uart == uart) {
+			k_mutex_unlock(&slcan_uart_lock);
+			return -EALREADY;
+		}
+
+		if (su == NULL && !atomic_get(&slcan_uarts[i].started)) {
+			su = &slcan_uarts[i];
+			idx = i;
+		}
 	}
+
+	if (su == NULL) {
+		k_mutex_unlock(&slcan_uart_lock);
+		LOG_ERR("all %d instances in use (CONFIG_SLCAN_UART_INSTANCES)",
+			CONFIG_SLCAN_UART_INSTANCES);
+		return -ENOMEM;
+	}
+
+	atomic_set(&su->started, 1);
+	su->uart = uart;
+	k_mutex_unlock(&slcan_uart_lock);
 
 	if (!device_is_ready(uart)) {
 		LOG_ERR("UART %s not ready", uart->name);
@@ -183,7 +208,6 @@ int slcan_uart_start(const struct device *uart, const struct device *can, slcan_
 		return -ENODEV;
 	}
 
-	su->uart = uart;
 	ring_buf_init(&su->rx_rb, sizeof(su->rx_buf), su->rx_buf);
 	ring_buf_init(&su->tx_rb, sizeof(su->tx_buf), su->tx_buf);
 	k_sem_init(&su->rx_sem, 0, 1);
@@ -208,10 +232,11 @@ int slcan_uart_start(const struct device *uart, const struct device *can, slcan_
 		return err;
 	}
 
-	tid = k_thread_create(&su->thread, slcan_uart_stack,
-			      K_THREAD_STACK_SIZEOF(slcan_uart_stack), slcan_uart_thread, su, NULL,
-			      NULL, CONFIG_SLCAN_UART_THREAD_PRIORITY, 0, K_NO_WAIT);
-	(void)k_thread_name_set(tid, "slcan_uart");
+	tid = k_thread_create(&su->thread, slcan_uart_stacks[idx],
+			      K_THREAD_STACK_SIZEOF(slcan_uart_stacks[idx]), slcan_uart_thread, su,
+			      NULL, NULL, CONFIG_SLCAN_UART_THREAD_PRIORITY, 0, K_NO_WAIT);
+	snprintk(name, sizeof(name), "slcan_uart%u", (unsigned int)idx);
+	(void)k_thread_name_set(tid, name);
 
 	return 0;
 }

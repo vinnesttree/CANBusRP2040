@@ -1,0 +1,27 @@
+sample:
+  name: Phoenix 6 bridge
+  description: |
+    Talon FX (Kraken) control requests, configuration and status signals
+    with the Phoenix 6 API from the microcontroller, executed by the host
+    bridge. The board is also the host's SocketCAN adapter (slcan).
+common:
+  tags:
+    - can
+    - usb
+    - phoenix6
+  build_only: true
+tests:
+  sample.canbus_rp2040.phoenix6_bridge:
+    extra_args: SHIELD=mcp25625_pico
+    platform_allow:
+      - rpi_pico
+      - rpi_pico2/rp2350a/m33
+    integration_platforms:
+      - rpi_pico
+  # Any board with an Arduino R3 header and USB device support
+  sample.canbus_rp2040.phoenix6_bridge.arduino:
+    extra_args: SHIELD=mcp25625_arduino
+    platform_allow:
+      - nrf52840dk/nrf52840
+    modules:
+      - hal_nordic

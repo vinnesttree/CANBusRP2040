@@ -255,7 +255,8 @@ int slcan_btr_to_bitrate(uint8_t btr0, uint8_t btr1, uint32_t *bitrate, uint16_t
  *
  * Creates a thread that connects the UART @a uart (for example a
  * ``zephyr,cdc-acm-uart`` instance) to the CAN controller @a can using the
- * slcan protocol. Only one transport instance is supported.
+ * slcan protocol. Up to @kconfig{CONFIG_SLCAN_UART_INSTANCES} UARTs can be
+ * started, each with its own CAN controller.
  *
  * @param uart UART device (interrupt driven API required).
  * @param can CAN controller device.
@@ -263,7 +264,8 @@ int slcan_btr_to_bitrate(uint8_t btr0, uint8_t btr1, uint32_t *bitrate, uint16_t
  * @param user_data User data passed to @a cb.
  *
  * @retval 0 on success.
- * @retval -EALREADY if the transport is already running.
+ * @retval -EALREADY if the transport is already running on @a uart.
+ * @retval -ENOMEM if all instances are in use.
  * @retval <0 on error.
  */
 int slcan_uart_start(const struct device *uart, const struct device *can, slcan_event_cb_t cb,

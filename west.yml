@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 # West manifest for a workspace containing this module, Zephyr and the
-# modules needed for the Raspberry Pi Pico (RP2040):
+# modules needed for the Raspberry Pi Pico (RP2040 / RP2350):
 #
 #   west init -m https://github.com/vinnesttree/CANBusRP2040 --mr <branch> workspace
 #   cd workspace && west update
@@ -20,7 +20,8 @@ manifest:
       remote: zephyrproject-rtos
       revision: v4.4.2
       import:
-        # Only fetch the modules required for RP2040 / RP2350 targets
+        # Only fetch the modules required for RP2040 / RP2350 targets. For
+        # another board add its HAL, e.g. hal_nordic, hal_stm32 or hal_nxp.
         name-allowlist:
           - cmsis
           - cmsis_6

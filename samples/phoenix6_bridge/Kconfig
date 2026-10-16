@@ -1,0 +1,23 @@
+# Copyright (c) 2026 CANBusRP2040 contributors
+# SPDX-License-Identifier: Apache-2.0
+
+menu "Phoenix 6 bridge sample"
+
+config SAMPLE_USB_VID
+	hex "USB vendor ID"
+	default 0x2fe3
+	help
+	  The default is the Zephyr project VID, which is only meant for
+	  testing. Use your own VID/PID for devices you distribute.
+
+config SAMPLE_USB_PID
+	hex "USB product ID"
+	default 0x0001
+
+config SAMPLE_ENABLE_FEED_MS
+	int "Enable timeout fed by the shell's 'p6 enable on'"
+	default 100
+
+endmenu
+
+source "Kconfig.zephyr"

@@ -1,20 +1,29 @@
 # CANBusRP2040
 
 A [Zephyr RTOS](https://zephyrproject.org) module for using a **Microchip
-MCP25625-E/SS CAN board** with an **RP2040** (Raspberry Pi Pico). It contains:
+MCP25625-E/SS CAN board** with a microcontroller. It was written for the
+**RP2040** (Raspberry Pi Pico), but nothing in the libraries is specific to it:
+they work on any Zephyr board with SPI and a GPIO interrupt (see
+[Board support](#board-support)). It contains:
 
 - a Zephyr CAN controller driver for the MCP25625 (`microchip,mcp25625`), so the
   board works with the standard Zephyr CAN API,
 - **CANable-style USB-to-CAN adapter** firmware (the slcan / Lawicel protocol
   over USB CDC ACM), usable from Linux SocketCAN, python-can and similar tools,
 - **Kraken X60 / X44** motor support: PWM control, motor data and model, and a
-  CAN bus monitor for CTR Electronics devices, plus a documented path to every
-  Kraken feature through CTRE's Phoenix 6 library.
+  CAN bus monitor for CTR Electronics devices,
+- **every Phoenix 6 control request** of the Talon FX (the Kraken's motor
+  controller), plus its configuration and status signals, as a C API on the
+  microcontroller. The requests are carried out by CTR Electronics' official
+  Phoenix 6 library on a Linux host bridge (see
+  [Phoenix 6 from the firmware](#phoenix-6-from-the-firmware)).
 
-> **Hardware status:** the code is built and tested against an MCP25625
-> register-level emulator on Zephyr's `native_sim` (including Zephyr's own CAN
-> driver conformance suite), and all samples build for `rpi_pico`. It has
-> **not yet been run on real hardware**. Please report your results.
+> **Hardware status:** the code is tested on Zephyr's `native_sim`: the driver
+> against a register-level MCP25625 emulator (including Zephyr's own CAN driver
+> conformance suite), and the Phoenix 6 path end to end against the simulated
+> Talon FX of the official Phoenix 6 library. All samples build for `rpi_pico`,
+> `rpi_pico2` and `nrf52840dk`. It has **not yet been run on real hardware**.
+> Please report your results.
 
 ## Contents
 
@@ -22,14 +31,20 @@ MCP25625-E/SS CAN board** with an **RP2040** (Raspberry Pi Pico). It contains:
 |---|---|
 | `drivers/can/` | MCP25625 CAN driver and its SPI emulator (for tests) |
 | `dts/bindings/can/microchip,mcp25625.yaml` | Devicetree binding |
-| `boards/shields/mcp25625_pico/` | Devicetree "shield": MCP25625 board wired to a Pico |
+| `boards/shields/mcp25625_pico/` | Devicetree "shield": MCP25625 board wired to a Pico (RP2040 / RP2350) |
+| `boards/shields/mcp25625_arduino/` | Devicetree "shield": MCP25625 board on any Arduino R3 header |
 | `lib/slcan/` | slcan protocol engine and UART / USB CDC ACM transport |
 | `lib/kraken/`, `lib/frc_can/` | Kraken support and FIRST CAN helpers |
+| `lib/phoenix6/` | Phoenix 6 API (generated) and the client of the host bridge |
+| `host/phoenix6_bridge/` | Host bridge (Python) running the requests with the official Phoenix 6 library |
+| `scripts/gen_phoenix6.py` | Regenerates the Phoenix 6 API for another Phoenix 6 version |
 | `include/canbus_rp2040/` | Public headers |
 | `samples/usb_can_adapter/` | CANable-style USB-to-CAN adapter |
+| `samples/phoenix6_bridge/` | Phoenix 6 requests from the firmware, with a `p6` shell |
 | `samples/kraken_tool/` | Shell tool: Kraken PWM control, motor data, CAN device monitor |
 | `samples/can_basic/` | Minimal send/receive example |
-| `tests/` | Driver, slcan, Kraken and Zephyr conformance tests (`native_sim`) |
+| `tests/` | Driver, slcan, Kraken, Phoenix 6 and Zephyr conformance tests (`native_sim`) |
+| `docs/phoenix6_bridge_protocol.md` | Serial protocol between the firmware and the host bridge |
 
 ## Kraken support: what is possible where
 
@@ -37,20 +52,21 @@ The Kraken X60 and X44 are driven by CTR Electronics' Talon FX controller.
 CTRE's **Phoenix 6 CAN protocol** (control requests, configuration, status
 signals, FOC, Motion Magic, ...) **is not publicly documented**, so this project
 does not reimplement it: a guessed protocol could command a motor in ways you
-did not intend. Instead, there are two paths:
+did not intend. Instead, there are three paths:
 
-| Feature | Phoenix 6 on a Linux host, this board as USB-to-CAN adapter | Standalone on the RP2040 |
-|---|---|---|
-| Every Phoenix 6 control mode (duty cycle, voltage, torque/FOC, position, velocity, Motion Magic, followers, ...) | ✅ | ❌ (protocol undocumented) |
-| Configuration (PID slots, current limits, neutral mode, inversion, soft limits, ...) | ✅ | ❌ |
-| Status signals (position, velocity, current, temperature, faults, ...) | ✅ | ❌ |
-| Open-loop speed control | ✅ | ✅ PWM (`kraken_pwm`) |
-| List Kraken / CTRE devices on the bus by CAN ID | ✅ (Phoenix Tuner X) | ✅ CAN monitor (`kraken_can_monitor`) |
-| Robot controller (roboRIO) heartbeat decoding | – | ✅ (`frc_can`) |
-| Motor data, DC motor model, unit conversions | – | ✅ (`kraken_motor`) |
+| Feature | Phoenix 6 program on a Linux host, this board as USB-to-CAN adapter | Phoenix 6 API in the firmware, through the host bridge | Standalone on the microcontroller |
+|---|---|---|---|
+| Every Phoenix 6 control request (duty cycle, voltage, torque/FOC, position, velocity, Motion Magic, followers, ...) | ✅ | ✅ (`phoenix6_set_control()`) | ❌ (protocol undocumented) |
+| Configuration (PID slots, current limits, neutral mode, inversion, soft limits, ...) | ✅ | ✅ (`phoenix6_config_set()`) | ❌ |
+| Status signals (position, velocity, current, temperature, faults, ...) | ✅ | ✅ (`phoenix6_subscribe()`) | ❌ |
+| Open-loop speed control | ✅ | ✅ | ✅ PWM (`kraken_pwm`) |
+| List Kraken / CTRE devices on the bus by CAN ID | ✅ (Phoenix Tuner X) | – | ✅ CAN monitor (`kraken_can_monitor`) |
+| Robot controller (roboRIO) heartbeat decoding | – | – | ✅ (`frc_can`) |
+| Motor data, DC motor model, unit conversions | – | – | ✅ (`kraken_motor`) |
+| Needs a Linux host | yes | yes | no |
 
 Phoenix 6 supports Linux SocketCAN adapters for non-FRC use; the
-`usb_can_adapter` firmware provides one (see below).
+`usb_can_adapter` and `phoenix6_bridge` firmware provide one (see below).
 
 ## Hardware
 
@@ -114,14 +130,152 @@ and building with `-DEXTRA_DTC_OVERLAY_FILE=my-board.overlay`.
    west build -b rpi_pico canbus-rp2040/samples/usb_can_adapter -- -DSHIELD=mcp25625_pico
    ```
 
+   For another board, use its name and shield, e.g.
+   `west build -b nrf52840dk/nrf52840 ... -- -DSHIELD=mcp25625_arduino`, and
+   fetch its HAL first (see [Board support](#board-support)).
+
 4. Flash: hold BOOTSEL while plugging in the Pico and copy
    `build/zephyr/zephyr.uf2` to the `RPI-RP2` drive (or use `west flash` with a
    debug probe).
 
-Log output of all samples goes to UART0 (GP0 TX / GP1 RX, 115200 baud).
+Log output of all samples goes to the board's console UART (on a Pico: UART0,
+GP0 TX / GP1 RX, 115200 baud).
 
-To use the module from an existing Zephyr workspace instead, pass
-`-DZEPHYR_EXTRA_MODULES=/path/to/CANBusRP2040` to `west build`.
+## Using the library in your own project
+
+The repository is a self-contained Zephyr module: drivers, devicetree binding,
+shields, libraries and headers are picked up automatically once Zephyr knows
+about it, and every feature is switched on with one Kconfig option. It is
+tested with **Zephyr v4.4.2**.
+
+### 1. Add the module
+
+Any of these works:
+
+- **West manifest** of your workspace (`west update` fetches it):
+
+  ```yaml
+  manifest:
+    projects:
+      - name: canbus-rp2040
+        url: https://github.com/vinnesttree/CANBusRP2040
+        revision: <commit or tag>
+        path: modules/lib/canbus-rp2040
+  ```
+
+- **Copied or as a git submodule** inside your application, with this line in
+  the application's `CMakeLists.txt` *before* `find_package(Zephyr ...)`:
+
+  ```cmake
+  list(APPEND ZEPHYR_EXTRA_MODULES ${CMAKE_CURRENT_SOURCE_DIR}/modules/CANBusRP2040)
+  ```
+
+- **On the command line**: `west build ... -- -DZEPHYR_EXTRA_MODULES=/path/to/CANBusRP2040`.
+
+### 2. Describe the wiring in devicetree
+
+Use a shield if your board has a matching connector:
+
+| Shield | Boards | Pins |
+|---|---|---|
+| `mcp25625_pico` | Raspberry Pi Pico family (`pico_header`, e.g. `rpi_pico`, `rpi_pico2`) | [Wiring](#wiring-mcp25625_pico-shield) |
+| `mcp25625_arduino` | Any board with an Arduino R3 header (`arduino_header` / `arduino_spi`): most Nordic DKs, STM32 Nucleo, NXP FRDM, ... | SPI on D11–D13, CS D10, INT D2, STBY D9 |
+
+and build with `-DSHIELD=<shield>`. For any other wiring, add the node to your
+board overlay; only an SPI bus, a chip select and an interrupt-capable GPIO are
+needed:
+
+```dts
+&spi1 {                                   /* any SPI controller */
+	status = "okay";
+	cs-gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;
+
+	mcp25625: can@0 {
+		compatible = "microchip,mcp25625";
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_M(10)>;
+		osc-freq = <DT_FREQ_M(16)>;       /* crystal on the board */
+		int-gpios = <&gpio0 20 GPIO_ACTIVE_LOW>;
+		standby-gpios = <&gpio0 21 GPIO_ACTIVE_HIGH>;  /* optional */
+		bitrate = <1000000>;
+	};
+};
+
+/ {
+	chosen {
+		zephyr,canbus = &mcp25625;
+	};
+};
+```
+
+The SPI controller also needs its pins (`pinctrl-0`) if the board does not set
+them up already.
+
+### 3. Enable what you need
+
+| Feature | `prj.conf` | Header |
+|---|---|---|
+| MCP25625 driver | `CONFIG_CAN=y` (the driver is enabled by the devicetree node) | `<zephyr/drivers/can.h>`, extras in `<canbus_rp2040/drivers/can/mcp25625.h>` |
+| slcan USB-to-CAN | `CONFIG_SLCAN=y` | `<canbus_rp2040/slcan.h>` |
+| Kraken PWM, motor model, CAN monitor | `CONFIG_KRAKEN=y` (+ `CONFIG_PWM=y` for PWM) | `<canbus_rp2040/kraken.h>` |
+| Phoenix 6 through the host bridge | `CONFIG_PHOENIX6=y` | `<canbus_rp2040/phoenix6.h>` |
+| FIRST CAN identifiers and heartbeat | `CONFIG_FRC_CAN=y` | `<canbus_rp2040/frc_can.h>` |
+
+The serial transports select the UART interrupt API they need; only
+`CONFIG_SERIAL=y` must be set, which most boards do by default. The libraries
+take their devices as arguments (`const struct device *`), so they work with any
+CAN controller and any UART or USB CDC ACM port, not only the MCP25625 and USB.
+
+A minimal application, bridging the MCP25625 to a serial port with slcan:
+
+```c
+#include <zephyr/drivers/can.h>
+#include <canbus_rp2040/slcan.h>
+
+int main(void)
+{
+	/* my_uart: any UART node, or a USB CDC ACM port as in samples/usb_can_adapter */
+	return slcan_uart_start(DEVICE_DT_GET(DT_NODELABEL(my_uart)),
+				DEVICE_DT_GET(DT_CHOSEN(zephyr_canbus)), NULL, NULL);
+}
+```
+
+`slcan_uart_start()` can run several instances at once (one CAN controller per
+port, `CONFIG_SLCAN_UART_INSTANCES`), e.g. for a board with two CAN buses.
+
+## Board support
+
+Nothing in the drivers or libraries uses RP2040-specific code; they only use
+Zephyr's devicetree and driver APIs (SPI, GPIO, CAN, UART, PWM). Verified:
+
+| Board | SoC | How |
+|---|---|---|
+| `rpi_pico` | RP2040 (Cortex-M0+) | All samples build (`mcp25625_pico`) |
+| `rpi_pico2/rp2350a/m33` | RP2350 (Cortex-M33) | All samples build (`mcp25625_pico`) |
+| `nrf52840dk/nrf52840` | nRF52840 (Cortex-M4F) | All samples build (`mcp25625_arduino`) |
+| `native_sim` | host | All tests run (SPI / GPIO / UART emulators) |
+
+What a board needs:
+
+| Feature | Requirement |
+|---|---|
+| MCP25625 driver | SPI controller (up to 10 MHz), a GPIO with edge interrupts for INT |
+| slcan, Phoenix 6 bridge link | A UART with the interrupt driven API, or a USB device controller (CDC ACM) |
+| USB samples | A USB device controller supported by Zephyr's `device_next` stack (`zephyr_udc0`) |
+| Kraken PWM | A PWM channel with 1 µs resolution, 5 ms period |
+
+To use another board:
+
+1. Fetch its HAL. The workspace manifest (`west.yml`) only fetches the Raspberry
+   Pi HAL; add yours to `name-allowlist` (e.g. `hal_nordic`, `hal_stm32`,
+   `hal_nxp`) and run `west update`, or use the module from your own workspace.
+2. Use a shield or write the devicetree node as shown above.
+3. For `samples/kraken_tool`, add a `boards/<board>.overlay` with the PWM channel
+   (see `samples/kraken_tool/boards/rpi_pico.overlay`); the sample builds
+   without PWM otherwise.
+
+The `canbus_rp2040` name of the module, the header directory and the Kconfig
+menu is historical; it does not limit the supported boards.
 
 ## Using the MCP25625 driver in your application
 
@@ -241,7 +395,133 @@ The adapter uses the Zephyr project's test USB VID/PID by default; set
 devices you distribute. The protocol engine can be reused with any transport
 (`include/canbus_rp2040/slcan.h`).
 
-## Kraken: all features with Phoenix 6 on a Linux host
+## Phoenix 6 from the firmware
+
+The `phoenix6` library makes every Talon FX control request of Phoenix 6 a C
+struct with Phoenix 6's parameter names and defaults, together with the
+configuration fields and status signals. Because CTRE does not publish the CAN
+protocol, the firmware does not put the requests on the CAN bus itself: it sends
+them over a USB serial port to the host bridge, which carries them out with CTR
+Electronics' official Phoenix 6 library and streams status signals back. The
+board can be the bridge's SocketCAN adapter at the same time:
+
+```text
+ microcontroller                                 Linux host (PC, Raspberry Pi, Jetson)
+┌───────────────────────────┐   USB port 2   ┌──────────────────────────────────┐
+│ your code                 │ ─────────────► │ phoenix6_bridge                  │
+│  phoenix6_set_control()   │ ◄───────────── │  official Phoenix 6 library      │
+│  phoenix6_get_signal()    │  results,      │        │ SocketCAN (slcan0)      │
+│                           │  signals       │        ▼                         │
+│ slcan        ◄──────────────── USB port 1 ──── slcand                         │
+│ MCP25625                  │                └──────────────────────────────────┘
+└──┬────────────────────────┘
+   │ CAN, 1 Mbit/s
+ Kraken / Talon FX
+```
+
+Any other SocketCAN adapter (or a CANivore) works as well; the bridge only needs
+a serial link to the firmware.
+
+### Requests in C
+
+```c
+#include <canbus_rp2040/phoenix6.h>
+
+phoenix6_bridge_start(DEVICE_DT_GET(DT_NODELABEL(phoenix6_uart)));
+phoenix6_bridge_wait_connected(K_SECONDS(10));
+
+/* Configuration: one field, the rest of its group is kept */
+phoenix6_config_set(1, PHOENIX6_CONFIG_SLOT0_K_V, 0.12, 100, NULL);
+phoenix6_config_set(1, PHOENIX6_CONFIG_MOTOR_OUTPUT_NEUTRAL_MODE,
+		    PHOENIX6_NEUTRAL_MODE_BRAKE, 100, NULL);
+
+/* Status signals streamed at 50 Hz */
+phoenix6_subscribe(1, PHOENIX6_SIGNAL_VELOCITY, 50.0f, NULL);
+
+/* Velocity closed loop, 10 rot/s, Phoenix 6 defaults for everything else */
+struct phoenix6_control req = PHOENIX6_VELOCITY_VOLTAGE(10.0);
+req.velocity_voltage.slot = 0;
+
+while (true) {
+	struct phoenix6_signal_value v;
+
+	phoenix6_feed_enable(100);          /* actuators run only while fed */
+	phoenix6_set_control(1, &req);      /* Talon FX with CAN ID 1 */
+	if (phoenix6_get_signal(1, PHOENIX6_SIGNAL_VELOCITY, &v) == 0) {
+		printk("velocity %.2f rot/s\n", v.value);
+	}
+	k_msleep(20);
+}
+```
+
+- Every request has `PHOENIX6_<NAME>(required...)`, filling in the Phoenix 6
+  defaults, and a struct `struct phoenix6_<name>` in
+  `include/canbus_rp2040/phoenix6_generated.h`. Differential requests
+  (`Diff_*`) take the parameter structs of their two requests, e.g.
+  `PHOENIX6_DIFF_VELOCITY_VOLTAGE_POSITION(PHOENIX6_VELOCITY_VOLTAGE_PARAMS(5.0), PHOENIX6_POSITION_VOLTAGE_PARAMS(0.25))`.
+- Also available: `phoenix6_config_get()`, `phoenix6_factory_default()`,
+  `phoenix6_set_position()`, `phoenix6_clear_sticky_faults()`,
+  `phoenix6_last_control_status()` (the Phoenix 6 `StatusCode` of the last
+  request), and descriptor tables to look everything up by name.
+- Call `phoenix6_set_control()` periodically, as in the example: after a link
+  loss the bridge has put the motors in neutral, and only a new request moves
+  them again.
+
+### Running it
+
+1. Flash `samples/phoenix6_bridge` (`-DSHIELD=mcp25625_pico` or
+   `mcp25625_arduino`). The board shows up as two serial ports.
+2. On the host, create the SocketCAN interface on the first port:
+   `sudo slcand -o -c -s8 /dev/ttyACM0 slcan0 && sudo ip link set up slcan0`.
+3. Install and start the bridge on the second port:
+
+   ```sh
+   pip install ./host/phoenix6_bridge          # installs phoenix6==26.3.0 and pyserial
+   phoenix6-bridge --port /dev/ttyACM1 --canbus slcan0 -v
+   ```
+
+4. Use the `p6` shell on the console UART, or your own code:
+
+   ```text
+   uart:~$ p6 status
+   uart:~$ p6 enable on
+   uart:~$ p6 info VelocityVoltage
+   uart:~$ p6 control 1 VelocityVoltage velocity=10 slot=1
+   uart:~$ p6 control 1 Follower leader_id=2 motor_alignment=OPPOSED
+   uart:~$ p6 config set 1 motor_output.neutral_mode BRAKE
+   uart:~$ p6 signal 1 velocity 50
+   uart:~$ p6 stop 1
+   uart:~$ p6 list controls
+   ```
+
+### What to know
+
+- **Versions:** the firmware is generated from the Phoenix 6 version installed
+  on the host (26.3.0). At connection time the bridge compares a hash of the
+  API, and refuses to start if `schema.json` does not match its installed
+  `phoenix6`. For another version: install it, run
+  `python -m phoenix6_bridge.schema` (in `host/phoenix6_bridge`) and
+  `scripts/gen_phoenix6.py`, and rebuild the firmware.
+- **Licensing and bus type:** 66 of the 99 requests require a Phoenix Pro
+  license and 60 of them also a CANivore (CAN FD), as stated by Phoenix 6
+  (`p6 list controls` shows both). The MCP25625 is a CAN 2.0 controller, so the
+  CANivore-only requests (the `Diff_*` and `DynamicMotionMagic*` requests)
+  cannot be used on a bus attached to it. `enable_foc` defaults to true as in
+  Phoenix 6; FOC also needs Phoenix Pro.
+- **Safety:** the firmware and the bridge exchange PING / PONG every 100 ms.
+  If nothing arrives for 500 ms, or the firmware reconnects, or the bridge
+  stops (Ctrl+C or SIGTERM), the bridge sends `NeutralOut` to every Talon FX it
+  used and disables actuators (`feed_enable(0)`). Actuators also only run while
+  the firmware feeds the enable (`phoenix6_feed_enable()`).
+- **Bandwidth:** use USB if you can. A `VelocityVoltage` request is 53 bytes
+  on the wire, so a hardware UART at 115200 baud (11.5 kB/s) carries about 200
+  per second in total, e.g. four motors at 50 Hz, before PINGs and enable.
+- **Latency** from `phoenix6_set_control()` to the CAN bus has not been
+  measured on hardware yet; it includes two USB transfers and the host.
+- The serial protocol is documented in
+  [docs/phoenix6_bridge_protocol.md](docs/phoenix6_bridge_protocol.md).
+
+## Kraken: Phoenix 6 programs on a Linux host
 
 1. Flash `samples/usb_can_adapter` and connect the MCP25625 CAN-H / CAN-L to
    the Kraken's CAN wires (yellow = CAN-H, green = CAN-L). Terminate the bus.
@@ -256,9 +536,9 @@ API of your Phoenix 6 version):
 
 ```python
 import time
-from phoenix6 import hardware, controls, unmanaged
+from phoenix6 import CANBus, controls, hardware, unmanaged
 
-kraken = hardware.TalonFX(1, "slcan0")          # device ID 1 on SocketCAN slcan0
+kraken = hardware.TalonFX(1, CANBus("slcan0"))  # device ID 1 on SocketCAN slcan0
 request = controls.DutyCycleOut(0.1)
 
 while True:
@@ -276,7 +556,7 @@ Notes from CTRE's documentation:
   without a roboRIO; see CTRE's "Enabling Actuators" documentation.
 - FOC commutation requires a Phoenix Pro license.
 
-## Kraken: standalone on the RP2040 (`samples/kraken_tool`)
+## Kraken: standalone on the microcontroller (`samples/kraken_tool`)
 
 ```sh
 west build -b rpi_pico canbus-rp2040/samples/kraken_tool -- -DSHIELD=mcp25625_pico
@@ -367,9 +647,23 @@ west twister -T canbus-rp2040/tests -p native_sim/native/64
 | `tests/lib/slcan` | Protocol parser/formatter and command handling over the driver |
 | `tests/lib/slcan_uart` | UART transport end to end (UART emulator ↔ driver emulator) |
 | `tests/lib/kraken` | FRC CAN helpers, heartbeat bit layout, motor model, PWM, bus monitor |
+| `tests/lib/phoenix6` | Protocol vectors, generated tables and initializers, client against a fake host |
+| `tests/e2e/phoenix6_sim` | Firmware client ↔ real host bridge ↔ simulated Talon FX of Phoenix 6 |
+| `host/phoenix6_bridge/tests` | Protocol, schema vs. installed `phoenix6`, every request / config field / signal through the bridge in Phoenix 6 simulation |
 
-The emulator reproduces the documented MCP2515/MCP25625 behaviour; it is not a
-substitute for testing on real hardware.
+The Phoenix 6 tests need `pip install phoenix6==26.3.0 pyserial`:
+
+```sh
+# host bridge
+cd canbus-rp2040/host/phoenix6_bridge && python -m unittest discover -s tests -t .
+# end to end
+west build -b native_sim/native/64 canbus-rp2040/tests/e2e/phoenix6_sim -d build/e2e
+python canbus-rp2040/scripts/phoenix6_e2e.py build/e2e/zephyr/zephyr.exe
+```
+
+The emulator reproduces the documented MCP2515/MCP25625 behaviour, and the
+Phoenix 6 simulation is CTRE's; neither is a substitute for testing on real
+hardware.
 
 ## References
 
@@ -382,7 +676,9 @@ substitute for testing on real hardware.
 - [FIRST CAN device specification](https://docs.wpilib.org/en/stable/docs/software/can-devices/can-addressing.html)
 - WPILib `PWMTalonFX` and `DCMotor`
 - [CTRE Phoenix 6 documentation](https://v6.docs.ctr-electronics.com): non-FRC
-  installation, enabling actuators, Talon FX hardware reference
+  installation, enabling actuators, Talon FX hardware reference; the
+  [`phoenix6` Python package](https://pypi.org/project/phoenix6/) is the source
+  of the generated API (names, parameter order, types and defaults only)
 - [WestCoast Products Kraken documentation](https://docs.wcproducts.com)
 
 ## License

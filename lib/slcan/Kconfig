@@ -75,13 +75,22 @@ config SLCAN_UART
 	bool "UART / USB CDC ACM transport"
 	default y
 	depends on SERIAL
-	depends on UART_INTERRUPT_DRIVEN
+	depends on SERIAL_SUPPORT_INTERRUPT
+	select UART_INTERRUPT_DRIVEN
 	select RING_BUFFER
 	help
 	  Provide slcan_uart_start(), which runs the slcan protocol on a UART
 	  such as a USB CDC ACM instance.
 
 if SLCAN_UART
+
+config SLCAN_UART_INSTANCES
+	int "Number of UARTs that can run slcan at the same time"
+	default 1
+	range 1 8
+	help
+	  Each instance bridges one CAN controller to one UART (e.g. one USB
+	  CDC ACM port per CAN bus) and has its own thread and buffers.
 
 config SLCAN_UART_THREAD_STACK_SIZE
 	int "Transport thread stack size"

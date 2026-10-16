@@ -7,13 +7,24 @@ common:
   tags:
     - can
   build_only: true
-  extra_args: SHIELD=mcp25625_pico
-  platform_allow:
-    - rpi_pico
-  integration_platforms:
-    - rpi_pico
 tests:
-  sample.canbus_rp2040.can_basic: {}
+  sample.canbus_rp2040.can_basic:
+    extra_args: SHIELD=mcp25625_pico
+    platform_allow:
+      - rpi_pico
+      - rpi_pico2/rp2350a/m33
+    integration_platforms:
+      - rpi_pico
   sample.canbus_rp2040.can_basic.loopback:
+    extra_args: SHIELD=mcp25625_pico
+    platform_allow:
+      - rpi_pico
     extra_configs:
       - CONFIG_SAMPLE_CAN_LOOPBACK=y
+  # Any board with an Arduino R3 header, e.g. Nordic, STM32 Nucleo, NXP FRDM
+  sample.canbus_rp2040.can_basic.arduino:
+    extra_args: SHIELD=mcp25625_arduino
+    platform_allow:
+      - nrf52840dk/nrf52840
+    modules:
+      - hal_nordic

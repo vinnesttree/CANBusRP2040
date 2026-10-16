@@ -1,0 +1,5105 @@
+{
+ "format": 1,
+ "phoenix6_version": "26.3.0",
+ "device": "TalonFX",
+ "enums": {
+  "AppliedRotorPolarityValue": {
+   "POSITIVE_IS_COUNTER_CLOCKWISE": 0,
+   "POSITIVE_IS_CLOCKWISE": 1
+  },
+  "BridgeOutputValue": {
+   "BRIDGE_REQ_COAST": 0,
+   "BRIDGE_REQ_BRAKE": 1,
+   "BRIDGE_REQ_TRAPEZ": 6,
+   "BRIDGE_REQ_FOC_TORQUE": 7,
+   "BRIDGE_REQ_MUSIC_TONE": 8,
+   "BRIDGE_REQ_FOC_EASY": 9,
+   "BRIDGE_REQ_FAULT_BRAKE": 12,
+   "BRIDGE_REQ_FAULT_COAST": 13,
+   "BRIDGE_REQ_ACTIVE_BRAKE": 14,
+   "BRIDGE_REQ_VARIABLE_BRAKE": 15
+  },
+  "ConnectedMotorValue": {
+   "UNKNOWN": 0,
+   "FALCON500_INTEGRATED": 1,
+   "KRAKEN_X60_INTEGRATED": 2,
+   "KRAKEN_X44_INTEGRATED": 3,
+   "MINION_JST": 4,
+   "BRUSHED_AB": 5,
+   "BRUSHED_AC": 6,
+   "BRUSHED_BC": 7,
+   "NEO_JST": 8,
+   "NEO550_JST": 9,
+   "VORTEX_JST": 10,
+   "CUSTOM_BRUSHLESS": 11
+  },
+  "ControlModeValue": {
+   "DISABLED_OUTPUT": 0,
+   "NEUTRAL_OUT": 1,
+   "STATIC_BRAKE": 2,
+   "DUTY_CYCLE_OUT": 3,
+   "POSITION_DUTY_CYCLE": 4,
+   "VELOCITY_DUTY_CYCLE": 5,
+   "MOTION_MAGIC_DUTY_CYCLE": 6,
+   "DUTY_CYCLE_FOC": 7,
+   "POSITION_DUTY_CYCLE_FOC": 8,
+   "VELOCITY_DUTY_CYCLE_FOC": 9,
+   "MOTION_MAGIC_DUTY_CYCLE_FOC": 10,
+   "VOLTAGE_OUT": 11,
+   "POSITION_VOLTAGE": 12,
+   "VELOCITY_VOLTAGE": 13,
+   "MOTION_MAGIC_VOLTAGE": 14,
+   "VOLTAGE_FOC": 15,
+   "POSITION_VOLTAGE_FOC": 16,
+   "VELOCITY_VOLTAGE_FOC": 17,
+   "MOTION_MAGIC_VOLTAGE_FOC": 18,
+   "TORQUE_CURRENT_FOC": 19,
+   "POSITION_TORQUE_CURRENT_FOC": 20,
+   "VELOCITY_TORQUE_CURRENT_FOC": 21,
+   "MOTION_MAGIC_TORQUE_CURRENT_FOC": 22,
+   "FOLLOWER": 23,
+   "RESERVED": 24,
+   "COAST_OUT": 25,
+   "UNAUTHORIZED_DEVICE": 26,
+   "MUSIC_TONE": 27,
+   "MOTION_MAGIC_VELOCITY_DUTY_CYCLE": 28,
+   "MOTION_MAGIC_VELOCITY_DUTY_CYCLE_FOC": 29,
+   "MOTION_MAGIC_VELOCITY_VOLTAGE": 30,
+   "MOTION_MAGIC_VELOCITY_VOLTAGE_FOC": 31,
+   "MOTION_MAGIC_VELOCITY_TORQUE_CURRENT_FOC": 32,
+   "MOTION_MAGIC_EXPO_DUTY_CYCLE": 33,
+   "MOTION_MAGIC_EXPO_DUTY_CYCLE_FOC": 34,
+   "MOTION_MAGIC_EXPO_VOLTAGE": 35,
+   "MOTION_MAGIC_EXPO_VOLTAGE_FOC": 36,
+   "MOTION_MAGIC_EXPO_TORQUE_CURRENT_FOC": 37
+  },
+  "DeviceEnableValue": {
+   "ENABLED": 1,
+   "DISABLED": 0
+  },
+  "DifferentialControlModeValue": {
+   "DISABLED_OUTPUT": 0,
+   "NEUTRAL_OUT": 1,
+   "STATIC_BRAKE": 2,
+   "DUTY_CYCLE_OUT": 3,
+   "POSITION_DUTY_CYCLE": 4,
+   "VELOCITY_DUTY_CYCLE": 5,
+   "MOTION_MAGIC_DUTY_CYCLE": 6,
+   "DUTY_CYCLE_FOC": 7,
+   "POSITION_DUTY_CYCLE_FOC": 8,
+   "VELOCITY_DUTY_CYCLE_FOC": 9,
+   "MOTION_MAGIC_DUTY_CYCLE_FOC": 10,
+   "VOLTAGE_OUT": 11,
+   "POSITION_VOLTAGE": 12,
+   "VELOCITY_VOLTAGE": 13,
+   "MOTION_MAGIC_VOLTAGE": 14,
+   "VOLTAGE_FOC": 15,
+   "POSITION_VOLTAGE_FOC": 16,
+   "VELOCITY_VOLTAGE_FOC": 17,
+   "MOTION_MAGIC_VOLTAGE_FOC": 18,
+   "TORQUE_CURRENT_FOC": 19,
+   "POSITION_TORQUE_CURRENT_FOC": 20,
+   "VELOCITY_TORQUE_CURRENT_FOC": 21,
+   "MOTION_MAGIC_TORQUE_CURRENT_FOC": 22,
+   "FOLLOWER": 23,
+   "RESERVED": 24,
+   "COAST_OUT": 25,
+   "UNAUTHORIZED_DEVICE": 26,
+   "MUSIC_TONE": 27,
+   "MOTION_MAGIC_VELOCITY_DUTY_CYCLE": 28,
+   "MOTION_MAGIC_VELOCITY_DUTY_CYCLE_FOC": 29,
+   "MOTION_MAGIC_VELOCITY_VOLTAGE": 30,
+   "MOTION_MAGIC_VELOCITY_VOLTAGE_FOC": 31,
+   "MOTION_MAGIC_VELOCITY_TORQUE_CURRENT_FOC": 32,
+   "MOTION_MAGIC_EXPO_DUTY_CYCLE": 33,
+   "MOTION_MAGIC_EXPO_DUTY_CYCLE_FOC": 34,
+   "MOTION_MAGIC_EXPO_VOLTAGE": 35,
+   "MOTION_MAGIC_EXPO_VOLTAGE_FOC": 36,
+   "MOTION_MAGIC_EXPO_TORQUE_CURRENT_FOC": 37
+  },
+  "DifferentialSensorSourceValue": {
+   "DISABLED": 0,
+   "REMOTE_TALON_FX_HALF_DIFF": 1,
+   "REMOTE_PIGEON2_YAW": 2,
+   "REMOTE_PIGEON2_PITCH": 3,
+   "REMOTE_PIGEON2_ROLL": 4,
+   "REMOTE_CANCODER": 5,
+   "REMOTE_CANDI_PWM1": 6,
+   "REMOTE_CANDI_PWM2": 7,
+   "REMOTE_CANDI_QUADRATURE": 8
+  },
+  "FeedbackSensorSourceValue": {
+   "ROTOR_SENSOR": 0,
+   "REMOTE_CANCODER": 1,
+   "REMOTE_PIGEON2_YAW": 2,
+   "REMOTE_PIGEON2_PITCH": 3,
+   "REMOTE_PIGEON2_ROLL": 4,
+   "FUSED_CANCODER": 5,
+   "SYNC_CANCODER": 6,
+   "REMOTE_CANDI_PWM1": 9,
+   "REMOTE_CANDI_PWM2": 10,
+   "REMOTE_CANDI_QUADRATURE": 11,
+   "FUSED_CANDI_PWM1": 12,
+   "FUSED_CANDI_PWM2": 13,
+   "FUSED_CANDI_QUADRATURE": 14,
+   "SYNC_CANDI_PWM1": 15,
+   "SYNC_CANDI_PWM2": 16
+  },
+  "ForwardLimitSourceValue": {
+   "LIMIT_SWITCH_PIN": 0,
+   "REMOTE_TALON_FX": 1,
+   "REMOTE_CANIFIER": 2,
+   "REMOTE_CANCODER": 4,
+   "REMOTE_CANRANGE": 6,
+   "REMOTE_CANDI_S1": 7,
+   "REMOTE_CANDI_S2": 8,
+   "DISABLED": 3
+  },
+  "ForwardLimitTypeValue": {
+   "NORMALLY_OPEN": 0,
+   "NORMALLY_CLOSED": 1
+  },
+  "ForwardLimitValue": {
+   "CLOSED_TO_GROUND": 0,
+   "OPEN": 1
+  },
+  "GainSchedBehaviorValue": {
+   "INACTIVE": 0,
+   "ZERO_OUTPUT": 1,
+   "USE_SLOT0": 2,
+   "USE_SLOT1": 3,
+   "USE_SLOT2": 4
+  },
+  "GainSchedKpBehaviorValue": {
+   "CONTINUOUS": 0,
+   "DISCONTINUOUS": 1
+  },
+  "GravityTypeValue": {
+   "ELEVATOR_STATIC": 0,
+   "ARM_COSINE": 1
+  },
+  "InvertedValue": {
+   "COUNTER_CLOCKWISE_POSITIVE": 0,
+   "CLOCKWISE_POSITIVE": 1
+  },
+  "MotorAlignmentValue": {
+   "ALIGNED": 0,
+   "OPPOSED": 1
+  },
+  "MotorOutputStatusValue": {
+   "UNKNOWN": 0,
+   "OFF": 1,
+   "STATIC_BRAKING": 2,
+   "MOTORING": 3,
+   "DISCORDANT_MOTORING": 4,
+   "REGEN_BRAKING": 5
+  },
+  "NeutralModeValue": {
+   "COAST": 0,
+   "BRAKE": 1
+  },
+  "ReverseLimitSourceValue": {
+   "LIMIT_SWITCH_PIN": 0,
+   "REMOTE_TALON_FX": 1,
+   "REMOTE_CANIFIER": 2,
+   "REMOTE_CANCODER": 4,
+   "REMOTE_CANRANGE": 6,
+   "REMOTE_CANDI_S1": 7,
+   "REMOTE_CANDI_S2": 8,
+   "DISABLED": 3
+  },
+  "ReverseLimitTypeValue": {
+   "NORMALLY_OPEN": 0,
+   "NORMALLY_CLOSED": 1
+  },
+  "ReverseLimitValue": {
+   "CLOSED_TO_GROUND": 0,
+   "OPEN": 1
+  },
+  "RobotEnableValue": {
+   "ENABLED": 1,
+   "DISABLED": 0
+  },
+  "StaticFeedforwardSignValue": {
+   "USE_VELOCITY_SIGN": 0,
+   "USE_CLOSED_LOOP_SIGN": 1
+  }
+ },
+ "controls": [
+  {
+   "name": "CoastOut",
+   "update_freq_hz": 20.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 1
+  },
+  {
+   "name": "DifferentialDutyCycle",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "average_output",
+     "type": "float"
+    },
+    {
+     "name": "differential_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "differential_slot",
+     "type": "int",
+     "default": 1.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 2
+  },
+  {
+   "name": "DifferentialFollower",
+   "update_freq_hz": 20.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "leader_id",
+     "type": "int"
+    },
+    {
+     "name": "motor_alignment",
+     "type": "enum",
+     "enum": "MotorAlignmentValue"
+    }
+   ],
+   "id": 3
+  },
+  {
+   "name": "DifferentialMotionMagicDutyCycle",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "average_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "differential_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "average_slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "differential_slot",
+     "type": "int",
+     "default": 1.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 4
+  },
+  {
+   "name": "DifferentialMotionMagicExpoDutyCycle",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "average_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "differential_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "average_slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "differential_slot",
+     "type": "int",
+     "default": 1.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 5
+  },
+  {
+   "name": "DifferentialMotionMagicExpoVoltage",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "average_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "differential_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "average_slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "differential_slot",
+     "type": "int",
+     "default": 1.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 6
+  },
+  {
+   "name": "DifferentialMotionMagicVelocityDutyCycle",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "average_velocity",
+     "type": "float",
+     "unit": "rotations_per_second"
+    },
+    {
+     "name": "differential_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "average_slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "differential_slot",
+     "type": "int",
+     "default": 1.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 7
+  },
+  {
+   "name": "DifferentialMotionMagicVelocityVoltage",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "average_velocity",
+     "type": "float",
+     "unit": "rotations_per_second"
+    },
+    {
+     "name": "differential_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "average_slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "differential_slot",
+     "type": "int",
+     "default": 1.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 8
+  },
+  {
+   "name": "DifferentialMotionMagicVoltage",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "average_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "differential_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "average_slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "differential_slot",
+     "type": "int",
+     "default": 1.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 9
+  },
+  {
+   "name": "DifferentialPositionDutyCycle",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "average_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "differential_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "average_slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "differential_slot",
+     "type": "int",
+     "default": 1.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 10
+  },
+  {
+   "name": "DifferentialPositionVoltage",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "average_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "differential_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "average_slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "differential_slot",
+     "type": "int",
+     "default": 1.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 11
+  },
+  {
+   "name": "DifferentialStrictFollower",
+   "update_freq_hz": 20.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "leader_id",
+     "type": "int"
+    }
+   ],
+   "id": 12
+  },
+  {
+   "name": "DifferentialVelocityDutyCycle",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "average_velocity",
+     "type": "float",
+     "unit": "rotations_per_second"
+    },
+    {
+     "name": "differential_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "average_slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "differential_slot",
+     "type": "int",
+     "default": 1.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 13
+  },
+  {
+   "name": "DifferentialVelocityVoltage",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "average_velocity",
+     "type": "float",
+     "unit": "rotations_per_second"
+    },
+    {
+     "name": "differential_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "average_slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "differential_slot",
+     "type": "int",
+     "default": 1.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 14
+  },
+  {
+   "name": "DifferentialVoltage",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "average_output",
+     "type": "float",
+     "unit": "volt"
+    },
+    {
+     "name": "differential_position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "differential_slot",
+     "type": "int",
+     "default": 1.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 15
+  },
+  {
+   "name": "DutyCycleOut",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "output",
+     "type": "float"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 16
+  },
+  {
+   "name": "DynamicMotionMagicDutyCycle",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second"
+    },
+    {
+     "name": "acceleration",
+     "type": "float",
+     "unit": "rotations_per_second_squared"
+    },
+    {
+     "name": "jerk",
+     "type": "float",
+     "unit": "rotations_per_second_cubed",
+     "default": 0.0
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 17
+  },
+  {
+   "name": "DynamicMotionMagicExpoDutyCycle",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "k_v",
+     "type": "float",
+     "unit": "volts_per_rotation_per_second"
+    },
+    {
+     "name": "k_a",
+     "type": "float",
+     "unit": "volts_per_rotation_per_second_squared"
+    },
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second",
+     "default": 0.0
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 18
+  },
+  {
+   "name": "DynamicMotionMagicExpoTorqueCurrentFOC",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "k_v",
+     "type": "float",
+     "unit": "volts_per_rotation_per_second"
+    },
+    {
+     "name": "k_a",
+     "type": "float",
+     "unit": "volts_per_rotation_per_second_squared"
+    },
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second",
+     "default": 0.0
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "unit": "ampere",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_coast_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 19
+  },
+  {
+   "name": "DynamicMotionMagicExpoVoltage",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "k_v",
+     "type": "float",
+     "unit": "volts_per_rotation_per_second"
+    },
+    {
+     "name": "k_a",
+     "type": "float",
+     "unit": "volts_per_rotation_per_second_squared"
+    },
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second",
+     "default": 0.0
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "unit": "volt",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 20
+  },
+  {
+   "name": "DynamicMotionMagicTorqueCurrentFOC",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second"
+    },
+    {
+     "name": "acceleration",
+     "type": "float",
+     "unit": "rotations_per_second_squared"
+    },
+    {
+     "name": "jerk",
+     "type": "float",
+     "unit": "rotations_per_second_cubed",
+     "default": 0.0
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "unit": "ampere",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_coast_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 21
+  },
+  {
+   "name": "DynamicMotionMagicVoltage",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second"
+    },
+    {
+     "name": "acceleration",
+     "type": "float",
+     "unit": "rotations_per_second_squared"
+    },
+    {
+     "name": "jerk",
+     "type": "float",
+     "unit": "rotations_per_second_cubed",
+     "default": 0.0
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "unit": "volt",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 22
+  },
+  {
+   "name": "EmptyControl",
+   "update_freq_hz": null,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [],
+   "id": 23
+  },
+  {
+   "name": "Follower",
+   "update_freq_hz": 20.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "leader_id",
+     "type": "int"
+    },
+    {
+     "name": "motor_alignment",
+     "type": "enum",
+     "enum": "MotorAlignmentValue"
+    }
+   ],
+   "id": 24
+  },
+  {
+   "name": "MotionMagicDutyCycle",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 25
+  },
+  {
+   "name": "MotionMagicExpoDutyCycle",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 26
+  },
+  {
+   "name": "MotionMagicExpoTorqueCurrentFOC",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "unit": "ampere",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_coast_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 27
+  },
+  {
+   "name": "MotionMagicExpoVoltage",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "unit": "volt",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 28
+  },
+  {
+   "name": "MotionMagicTorqueCurrentFOC",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "unit": "ampere",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_coast_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 29
+  },
+  {
+   "name": "MotionMagicVelocityDutyCycle",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second"
+    },
+    {
+     "name": "acceleration",
+     "type": "float",
+     "unit": "rotations_per_second_squared",
+     "default": 0.0
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 30
+  },
+  {
+   "name": "MotionMagicVelocityTorqueCurrentFOC",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second"
+    },
+    {
+     "name": "acceleration",
+     "type": "float",
+     "unit": "rotations_per_second_squared",
+     "default": 0.0
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "unit": "ampere",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_coast_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 31
+  },
+  {
+   "name": "MotionMagicVelocityVoltage",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second"
+    },
+    {
+     "name": "acceleration",
+     "type": "float",
+     "unit": "rotations_per_second_squared",
+     "default": 0.0
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "unit": "volt",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 32
+  },
+  {
+   "name": "MotionMagicVoltage",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "unit": "volt",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 33
+  },
+  {
+   "name": "MusicTone",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "audio_frequency",
+     "type": "float",
+     "unit": "hertz"
+    }
+   ],
+   "id": 34
+  },
+  {
+   "name": "NeutralOut",
+   "update_freq_hz": 20.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 35
+  },
+  {
+   "name": "PositionDutyCycle",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second",
+     "default": 0.0
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 36
+  },
+  {
+   "name": "PositionTorqueCurrentFOC",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second",
+     "default": 0.0
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "unit": "ampere",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_coast_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 37
+  },
+  {
+   "name": "PositionVoltage",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "position",
+     "type": "float",
+     "unit": "rotation"
+    },
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second",
+     "default": 0.0
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "unit": "volt",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 38
+  },
+  {
+   "name": "StaticBrake",
+   "update_freq_hz": 20.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 39
+  },
+  {
+   "name": "StrictFollower",
+   "update_freq_hz": 20.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "leader_id",
+     "type": "int"
+    }
+   ],
+   "id": 40
+  },
+  {
+   "name": "TorqueCurrentFOC",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "output",
+     "type": "float",
+     "unit": "ampere"
+    },
+    {
+     "name": "max_abs_duty_cycle",
+     "type": "float",
+     "default": 1.0
+    },
+    {
+     "name": "deadband",
+     "type": "float",
+     "unit": "ampere",
+     "default": 0.0
+    },
+    {
+     "name": "override_coast_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 41
+  },
+  {
+   "name": "VelocityDutyCycle",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second"
+    },
+    {
+     "name": "acceleration",
+     "type": "float",
+     "unit": "rotations_per_second_squared",
+     "default": 0.0
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 42
+  },
+  {
+   "name": "VelocityTorqueCurrentFOC",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second"
+    },
+    {
+     "name": "acceleration",
+     "type": "float",
+     "unit": "rotations_per_second_squared",
+     "default": 0.0
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "unit": "ampere",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_coast_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 43
+  },
+  {
+   "name": "VelocityVoltage",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "velocity",
+     "type": "float",
+     "unit": "rotations_per_second"
+    },
+    {
+     "name": "acceleration",
+     "type": "float",
+     "unit": "rotations_per_second_squared",
+     "default": 0.0
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "feed_forward",
+     "type": "float",
+     "unit": "volt",
+     "default": 0.0
+    },
+    {
+     "name": "slot",
+     "type": "int",
+     "default": 0.0
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 44
+  },
+  {
+   "name": "VoltageOut",
+   "update_freq_hz": 100.0,
+   "requires_pro": false,
+   "requires_canivore": false,
+   "params": [
+    {
+     "name": "output",
+     "type": "float",
+     "unit": "volt"
+    },
+    {
+     "name": "enable_foc",
+     "type": "bool",
+     "default": true
+    },
+    {
+     "name": "override_brake_dur_neutral",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_forward_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "limit_reverse_motion",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_hardware_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "ignore_software_limits",
+     "type": "bool",
+     "default": false
+    },
+    {
+     "name": "use_timesync",
+     "type": "bool",
+     "default": false
+    }
+   ],
+   "id": 45
+  },
+  {
+   "name": "Diff_DutyCycleOut_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "DutyCycleOut"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "DutyCycleOut"
+    }
+   ],
+   "id": 46
+  },
+  {
+   "name": "Diff_DutyCycleOut_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "DutyCycleOut"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionDutyCycle"
+    }
+   ],
+   "id": 47
+  },
+  {
+   "name": "Diff_DutyCycleOut_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "DutyCycleOut"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityDutyCycle"
+    }
+   ],
+   "id": 48
+  },
+  {
+   "name": "Diff_MotionMagicDutyCycle_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "DutyCycleOut"
+    }
+   ],
+   "id": 49
+  },
+  {
+   "name": "Diff_MotionMagicDutyCycle_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionDutyCycle"
+    }
+   ],
+   "id": 50
+  },
+  {
+   "name": "Diff_MotionMagicDutyCycle_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityDutyCycle"
+    }
+   ],
+   "id": 51
+  },
+  {
+   "name": "Diff_MotionMagicExpoDutyCycle_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicExpoDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "DutyCycleOut"
+    }
+   ],
+   "id": 52
+  },
+  {
+   "name": "Diff_MotionMagicExpoDutyCycle_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicExpoDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionDutyCycle"
+    }
+   ],
+   "id": 53
+  },
+  {
+   "name": "Diff_MotionMagicExpoDutyCycle_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicExpoDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityDutyCycle"
+    }
+   ],
+   "id": 54
+  },
+  {
+   "name": "Diff_MotionMagicExpoTorqueCurrentFOC_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicExpoTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "TorqueCurrentFOC"
+    }
+   ],
+   "id": 55
+  },
+  {
+   "name": "Diff_MotionMagicExpoTorqueCurrentFOC_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicExpoTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionTorqueCurrentFOC"
+    }
+   ],
+   "id": 56
+  },
+  {
+   "name": "Diff_MotionMagicExpoTorqueCurrentFOC_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicExpoTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityTorqueCurrentFOC"
+    }
+   ],
+   "id": 57
+  },
+  {
+   "name": "Diff_MotionMagicExpoVoltage_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicExpoVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VoltageOut"
+    }
+   ],
+   "id": 58
+  },
+  {
+   "name": "Diff_MotionMagicExpoVoltage_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicExpoVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionVoltage"
+    }
+   ],
+   "id": 59
+  },
+  {
+   "name": "Diff_MotionMagicExpoVoltage_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicExpoVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityVoltage"
+    }
+   ],
+   "id": 60
+  },
+  {
+   "name": "Diff_MotionMagicTorqueCurrentFOC_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "TorqueCurrentFOC"
+    }
+   ],
+   "id": 61
+  },
+  {
+   "name": "Diff_MotionMagicTorqueCurrentFOC_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionTorqueCurrentFOC"
+    }
+   ],
+   "id": 62
+  },
+  {
+   "name": "Diff_MotionMagicTorqueCurrentFOC_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityTorqueCurrentFOC"
+    }
+   ],
+   "id": 63
+  },
+  {
+   "name": "Diff_MotionMagicVelocityDutyCycle_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicVelocityDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "DutyCycleOut"
+    }
+   ],
+   "id": 64
+  },
+  {
+   "name": "Diff_MotionMagicVelocityDutyCycle_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicVelocityDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionDutyCycle"
+    }
+   ],
+   "id": 65
+  },
+  {
+   "name": "Diff_MotionMagicVelocityDutyCycle_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicVelocityDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityDutyCycle"
+    }
+   ],
+   "id": 66
+  },
+  {
+   "name": "Diff_MotionMagicVelocityTorqueCurrentFOC_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicVelocityTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "TorqueCurrentFOC"
+    }
+   ],
+   "id": 67
+  },
+  {
+   "name": "Diff_MotionMagicVelocityTorqueCurrentFOC_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicVelocityTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionTorqueCurrentFOC"
+    }
+   ],
+   "id": 68
+  },
+  {
+   "name": "Diff_MotionMagicVelocityTorqueCurrentFOC_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicVelocityTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityTorqueCurrentFOC"
+    }
+   ],
+   "id": 69
+  },
+  {
+   "name": "Diff_MotionMagicVelocityVoltage_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicVelocityVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VoltageOut"
+    }
+   ],
+   "id": 70
+  },
+  {
+   "name": "Diff_MotionMagicVelocityVoltage_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicVelocityVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionVoltage"
+    }
+   ],
+   "id": 71
+  },
+  {
+   "name": "Diff_MotionMagicVelocityVoltage_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicVelocityVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityVoltage"
+    }
+   ],
+   "id": 72
+  },
+  {
+   "name": "Diff_MotionMagicVoltage_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VoltageOut"
+    }
+   ],
+   "id": 73
+  },
+  {
+   "name": "Diff_MotionMagicVoltage_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionVoltage"
+    }
+   ],
+   "id": 74
+  },
+  {
+   "name": "Diff_MotionMagicVoltage_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "MotionMagicVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityVoltage"
+    }
+   ],
+   "id": 75
+  },
+  {
+   "name": "Diff_PositionDutyCycle_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "PositionDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "DutyCycleOut"
+    }
+   ],
+   "id": 76
+  },
+  {
+   "name": "Diff_PositionDutyCycle_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "PositionDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionDutyCycle"
+    }
+   ],
+   "id": 77
+  },
+  {
+   "name": "Diff_PositionDutyCycle_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "PositionDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityDutyCycle"
+    }
+   ],
+   "id": 78
+  },
+  {
+   "name": "Diff_PositionTorqueCurrentFOC_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "PositionTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "TorqueCurrentFOC"
+    }
+   ],
+   "id": 79
+  },
+  {
+   "name": "Diff_PositionTorqueCurrentFOC_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "PositionTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionTorqueCurrentFOC"
+    }
+   ],
+   "id": 80
+  },
+  {
+   "name": "Diff_PositionTorqueCurrentFOC_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "PositionTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityTorqueCurrentFOC"
+    }
+   ],
+   "id": 81
+  },
+  {
+   "name": "Diff_PositionVoltage_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "PositionVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VoltageOut"
+    }
+   ],
+   "id": 82
+  },
+  {
+   "name": "Diff_PositionVoltage_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "PositionVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionVoltage"
+    }
+   ],
+   "id": 83
+  },
+  {
+   "name": "Diff_PositionVoltage_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "PositionVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityVoltage"
+    }
+   ],
+   "id": 84
+  },
+  {
+   "name": "Diff_TorqueCurrentFOC_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "TorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "TorqueCurrentFOC"
+    }
+   ],
+   "id": 85
+  },
+  {
+   "name": "Diff_TorqueCurrentFOC_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "TorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionTorqueCurrentFOC"
+    }
+   ],
+   "id": 86
+  },
+  {
+   "name": "Diff_TorqueCurrentFOC_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "TorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityTorqueCurrentFOC"
+    }
+   ],
+   "id": 87
+  },
+  {
+   "name": "Diff_VelocityDutyCycle_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "VelocityDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "DutyCycleOut"
+    }
+   ],
+   "id": 88
+  },
+  {
+   "name": "Diff_VelocityDutyCycle_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "VelocityDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionDutyCycle"
+    }
+   ],
+   "id": 89
+  },
+  {
+   "name": "Diff_VelocityDutyCycle_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "VelocityDutyCycle"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityDutyCycle"
+    }
+   ],
+   "id": 90
+  },
+  {
+   "name": "Diff_VelocityTorqueCurrentFOC_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "VelocityTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "TorqueCurrentFOC"
+    }
+   ],
+   "id": 91
+  },
+  {
+   "name": "Diff_VelocityTorqueCurrentFOC_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "VelocityTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionTorqueCurrentFOC"
+    }
+   ],
+   "id": 92
+  },
+  {
+   "name": "Diff_VelocityTorqueCurrentFOC_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "VelocityTorqueCurrentFOC"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityTorqueCurrentFOC"
+    }
+   ],
+   "id": 93
+  },
+  {
+   "name": "Diff_VelocityVoltage_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "VelocityVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VoltageOut"
+    }
+   ],
+   "id": 94
+  },
+  {
+   "name": "Diff_VelocityVoltage_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "VelocityVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionVoltage"
+    }
+   ],
+   "id": 95
+  },
+  {
+   "name": "Diff_VelocityVoltage_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "VelocityVoltage"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityVoltage"
+    }
+   ],
+   "id": 96
+  },
+  {
+   "name": "Diff_VoltageOut_Open",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "VoltageOut"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VoltageOut"
+    }
+   ],
+   "id": 97
+  },
+  {
+   "name": "Diff_VoltageOut_Position",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "VoltageOut"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "PositionVoltage"
+    }
+   ],
+   "id": 98
+  },
+  {
+   "name": "Diff_VoltageOut_Velocity",
+   "update_freq_hz": 100.0,
+   "requires_pro": true,
+   "requires_canivore": true,
+   "params": [
+    {
+     "name": "average_request",
+     "type": "control",
+     "control": "VoltageOut"
+    },
+    {
+     "name": "differential_request",
+     "type": "control",
+     "control": "VelocityVoltage"
+    }
+   ],
+   "id": 99
+  }
+ ],
+ "configs": [
+  {
+   "group": "motor_output",
+   "group_class": "MotorOutputConfigs",
+   "field": "inverted",
+   "type": "enum",
+   "default": 0,
+   "enum": "InvertedValue",
+   "id": 1
+  },
+  {
+   "group": "motor_output",
+   "group_class": "MotorOutputConfigs",
+   "field": "neutral_mode",
+   "type": "enum",
+   "default": 0,
+   "enum": "NeutralModeValue",
+   "id": 2
+  },
+  {
+   "group": "motor_output",
+   "group_class": "MotorOutputConfigs",
+   "field": "duty_cycle_neutral_deadband",
+   "type": "float",
+   "default": 0.0,
+   "id": 3
+  },
+  {
+   "group": "motor_output",
+   "group_class": "MotorOutputConfigs",
+   "field": "peak_forward_duty_cycle",
+   "type": "float",
+   "default": 1.0,
+   "id": 4
+  },
+  {
+   "group": "motor_output",
+   "group_class": "MotorOutputConfigs",
+   "field": "peak_reverse_duty_cycle",
+   "type": "float",
+   "default": -1.0,
+   "id": 5
+  },
+  {
+   "group": "motor_output",
+   "group_class": "MotorOutputConfigs",
+   "field": "control_timesync_freq_hz",
+   "type": "float",
+   "default": 0.0,
+   "unit": "hertz",
+   "id": 6
+  },
+  {
+   "group": "current_limits",
+   "group_class": "CurrentLimitsConfigs",
+   "field": "stator_current_limit",
+   "type": "float",
+   "default": 120.0,
+   "unit": "ampere",
+   "id": 7
+  },
+  {
+   "group": "current_limits",
+   "group_class": "CurrentLimitsConfigs",
+   "field": "stator_current_limit_enable",
+   "type": "bool",
+   "default": true,
+   "id": 8
+  },
+  {
+   "group": "current_limits",
+   "group_class": "CurrentLimitsConfigs",
+   "field": "supply_current_limit",
+   "type": "float",
+   "default": 70.0,
+   "unit": "ampere",
+   "id": 9
+  },
+  {
+   "group": "current_limits",
+   "group_class": "CurrentLimitsConfigs",
+   "field": "supply_current_limit_enable",
+   "type": "bool",
+   "default": true,
+   "id": 10
+  },
+  {
+   "group": "current_limits",
+   "group_class": "CurrentLimitsConfigs",
+   "field": "supply_current_lower_limit",
+   "type": "float",
+   "default": 40.0,
+   "unit": "ampere",
+   "id": 11
+  },
+  {
+   "group": "current_limits",
+   "group_class": "CurrentLimitsConfigs",
+   "field": "supply_current_lower_time",
+   "type": "float",
+   "default": 1.0,
+   "unit": "second",
+   "id": 12
+  },
+  {
+   "group": "voltage",
+   "group_class": "VoltageConfigs",
+   "field": "supply_voltage_time_constant",
+   "type": "float",
+   "default": 0.0,
+   "unit": "second",
+   "id": 13
+  },
+  {
+   "group": "voltage",
+   "group_class": "VoltageConfigs",
+   "field": "peak_forward_voltage",
+   "type": "float",
+   "default": 16.0,
+   "unit": "volt",
+   "id": 14
+  },
+  {
+   "group": "voltage",
+   "group_class": "VoltageConfigs",
+   "field": "peak_reverse_voltage",
+   "type": "float",
+   "default": -16.0,
+   "unit": "volt",
+   "id": 15
+  },
+  {
+   "group": "torque_current",
+   "group_class": "TorqueCurrentConfigs",
+   "field": "peak_forward_torque_current",
+   "type": "float",
+   "default": 800.0,
+   "unit": "ampere",
+   "id": 16
+  },
+  {
+   "group": "torque_current",
+   "group_class": "TorqueCurrentConfigs",
+   "field": "peak_reverse_torque_current",
+   "type": "float",
+   "default": -800.0,
+   "unit": "ampere",
+   "id": 17
+  },
+  {
+   "group": "torque_current",
+   "group_class": "TorqueCurrentConfigs",
+   "field": "torque_neutral_deadband",
+   "type": "float",
+   "default": 0.0,
+   "unit": "ampere",
+   "id": 18
+  },
+  {
+   "group": "feedback",
+   "group_class": "FeedbackConfigs",
+   "field": "feedback_rotor_offset",
+   "type": "float",
+   "default": 0.0,
+   "unit": "rotation",
+   "id": 19
+  },
+  {
+   "group": "feedback",
+   "group_class": "FeedbackConfigs",
+   "field": "sensor_to_mechanism_ratio",
+   "type": "float",
+   "default": 1.0,
+   "id": 20
+  },
+  {
+   "group": "feedback",
+   "group_class": "FeedbackConfigs",
+   "field": "rotor_to_sensor_ratio",
+   "type": "float",
+   "default": 1.0,
+   "id": 21
+  },
+  {
+   "group": "feedback",
+   "group_class": "FeedbackConfigs",
+   "field": "feedback_sensor_source",
+   "type": "enum",
+   "default": 0,
+   "enum": "FeedbackSensorSourceValue",
+   "id": 22
+  },
+  {
+   "group": "feedback",
+   "group_class": "FeedbackConfigs",
+   "field": "feedback_remote_sensor_id",
+   "type": "int",
+   "default": 0.0,
+   "id": 23
+  },
+  {
+   "group": "feedback",
+   "group_class": "FeedbackConfigs",
+   "field": "velocity_filter_time_constant",
+   "type": "float",
+   "default": 0.0,
+   "unit": "second",
+   "id": 24
+  },
+  {
+   "group": "differential_sensors",
+   "group_class": "DifferentialSensorsConfigs",
+   "field": "differential_sensor_source",
+   "type": "enum",
+   "default": 0,
+   "enum": "DifferentialSensorSourceValue",
+   "id": 25
+  },
+  {
+   "group": "differential_sensors",
+   "group_class": "DifferentialSensorsConfigs",
+   "field": "differential_talon_fx_sensor_id",
+   "type": "int",
+   "default": 0.0,
+   "id": 26
+  },
+  {
+   "group": "differential_sensors",
+   "group_class": "DifferentialSensorsConfigs",
+   "field": "differential_remote_sensor_id",
+   "type": "int",
+   "default": 0.0,
+   "id": 27
+  },
+  {
+   "group": "differential_sensors",
+   "group_class": "DifferentialSensorsConfigs",
+   "field": "sensor_to_differential_ratio",
+   "type": "float",
+   "default": 1.0,
+   "id": 28
+  },
+  {
+   "group": "differential_constants",
+   "group_class": "DifferentialConstantsConfigs",
+   "field": "peak_differential_duty_cycle",
+   "type": "float",
+   "default": 1.0,
+   "id": 29
+  },
+  {
+   "group": "differential_constants",
+   "group_class": "DifferentialConstantsConfigs",
+   "field": "peak_differential_voltage",
+   "type": "float",
+   "default": 16.0,
+   "unit": "volt",
+   "id": 30
+  },
+  {
+   "group": "differential_constants",
+   "group_class": "DifferentialConstantsConfigs",
+   "field": "peak_differential_torque_current",
+   "type": "float",
+   "default": 800.0,
+   "unit": "ampere",
+   "id": 31
+  },
+  {
+   "group": "open_loop_ramps",
+   "group_class": "OpenLoopRampsConfigs",
+   "field": "duty_cycle_open_loop_ramp_period",
+   "type": "float",
+   "default": 0.0,
+   "unit": "second",
+   "id": 32
+  },
+  {
+   "group": "open_loop_ramps",
+   "group_class": "OpenLoopRampsConfigs",
+   "field": "voltage_open_loop_ramp_period",
+   "type": "float",
+   "default": 0.0,
+   "unit": "second",
+   "id": 33
+  },
+  {
+   "group": "open_loop_ramps",
+   "group_class": "OpenLoopRampsConfigs",
+   "field": "torque_open_loop_ramp_period",
+   "type": "float",
+   "default": 0.0,
+   "unit": "second",
+   "id": 34
+  },
+  {
+   "group": "closed_loop_ramps",
+   "group_class": "ClosedLoopRampsConfigs",
+   "field": "duty_cycle_closed_loop_ramp_period",
+   "type": "float",
+   "default": 0.0,
+   "unit": "second",
+   "id": 35
+  },
+  {
+   "group": "closed_loop_ramps",
+   "group_class": "ClosedLoopRampsConfigs",
+   "field": "voltage_closed_loop_ramp_period",
+   "type": "float",
+   "default": 0.0,
+   "unit": "second",
+   "id": 36
+  },
+  {
+   "group": "closed_loop_ramps",
+   "group_class": "ClosedLoopRampsConfigs",
+   "field": "torque_closed_loop_ramp_period",
+   "type": "float",
+   "default": 0.0,
+   "unit": "second",
+   "id": 37
+  },
+  {
+   "group": "hardware_limit_switch",
+   "group_class": "HardwareLimitSwitchConfigs",
+   "field": "forward_limit_type",
+   "type": "enum",
+   "default": 0,
+   "enum": "ForwardLimitTypeValue",
+   "id": 38
+  },
+  {
+   "group": "hardware_limit_switch",
+   "group_class": "HardwareLimitSwitchConfigs",
+   "field": "forward_limit_autoset_position_enable",
+   "type": "bool",
+   "default": false,
+   "id": 39
+  },
+  {
+   "group": "hardware_limit_switch",
+   "group_class": "HardwareLimitSwitchConfigs",
+   "field": "forward_limit_autoset_position_value",
+   "type": "float",
+   "default": 0.0,
+   "unit": "rotation",
+   "id": 40
+  },
+  {
+   "group": "hardware_limit_switch",
+   "group_class": "HardwareLimitSwitchConfigs",
+   "field": "forward_limit_enable",
+   "type": "bool",
+   "default": true,
+   "id": 41
+  },
+  {
+   "group": "hardware_limit_switch",
+   "group_class": "HardwareLimitSwitchConfigs",
+   "field": "forward_limit_source",
+   "type": "enum",
+   "default": 0,
+   "enum": "ForwardLimitSourceValue",
+   "id": 42
+  },
+  {
+   "group": "hardware_limit_switch",
+   "group_class": "HardwareLimitSwitchConfigs",
+   "field": "forward_limit_remote_sensor_id",
+   "type": "int",
+   "default": 0.0,
+   "id": 43
+  },
+  {
+   "group": "hardware_limit_switch",
+   "group_class": "HardwareLimitSwitchConfigs",
+   "field": "reverse_limit_type",
+   "type": "enum",
+   "default": 0,
+   "enum": "ReverseLimitTypeValue",
+   "id": 44
+  },
+  {
+   "group": "hardware_limit_switch",
+   "group_class": "HardwareLimitSwitchConfigs",
+   "field": "reverse_limit_autoset_position_enable",
+   "type": "bool",
+   "default": false,
+   "id": 45
+  },
+  {
+   "group": "hardware_limit_switch",
+   "group_class": "HardwareLimitSwitchConfigs",
+   "field": "reverse_limit_autoset_position_value",
+   "type": "float",
+   "default": 0.0,
+   "unit": "rotation",
+   "id": 46
+  },
+  {
+   "group": "hardware_limit_switch",
+   "group_class": "HardwareLimitSwitchConfigs",
+   "field": "reverse_limit_enable",
+   "type": "bool",
+   "default": true,
+   "id": 47
+  },
+  {
+   "group": "hardware_limit_switch",
+   "group_class": "HardwareLimitSwitchConfigs",
+   "field": "reverse_limit_source",
+   "type": "enum",
+   "default": 0,
+   "enum": "ReverseLimitSourceValue",
+   "id": 48
+  },
+  {
+   "group": "hardware_limit_switch",
+   "group_class": "HardwareLimitSwitchConfigs",
+   "field": "reverse_limit_remote_sensor_id",
+   "type": "int",
+   "default": 0.0,
+   "id": 49
+  },
+  {
+   "group": "audio",
+   "group_class": "AudioConfigs",
+   "field": "beep_on_boot",
+   "type": "bool",
+   "default": true,
+   "id": 50
+  },
+  {
+   "group": "audio",
+   "group_class": "AudioConfigs",
+   "field": "beep_on_config",
+   "type": "bool",
+   "default": true,
+   "id": 51
+  },
+  {
+   "group": "audio",
+   "group_class": "AudioConfigs",
+   "field": "allow_music_dur_disable",
+   "type": "bool",
+   "default": false,
+   "id": 52
+  },
+  {
+   "group": "software_limit_switch",
+   "group_class": "SoftwareLimitSwitchConfigs",
+   "field": "forward_soft_limit_enable",
+   "type": "bool",
+   "default": false,
+   "id": 53
+  },
+  {
+   "group": "software_limit_switch",
+   "group_class": "SoftwareLimitSwitchConfigs",
+   "field": "reverse_soft_limit_enable",
+   "type": "bool",
+   "default": false,
+   "id": 54
+  },
+  {
+   "group": "software_limit_switch",
+   "group_class": "SoftwareLimitSwitchConfigs",
+   "field": "forward_soft_limit_threshold",
+   "type": "float",
+   "default": 0.0,
+   "unit": "rotation",
+   "id": 55
+  },
+  {
+   "group": "software_limit_switch",
+   "group_class": "SoftwareLimitSwitchConfigs",
+   "field": "reverse_soft_limit_threshold",
+   "type": "float",
+   "default": 0.0,
+   "unit": "rotation",
+   "id": 56
+  },
+  {
+   "group": "motion_magic",
+   "group_class": "MotionMagicConfigs",
+   "field": "motion_magic_cruise_velocity",
+   "type": "float",
+   "default": 0.0,
+   "unit": "rotations_per_second",
+   "id": 57
+  },
+  {
+   "group": "motion_magic",
+   "group_class": "MotionMagicConfigs",
+   "field": "motion_magic_acceleration",
+   "type": "float",
+   "default": 0.0,
+   "unit": "rotations_per_second_squared",
+   "id": 58
+  },
+  {
+   "group": "motion_magic",
+   "group_class": "MotionMagicConfigs",
+   "field": "motion_magic_jerk",
+   "type": "float",
+   "default": 0.0,
+   "unit": "rotations_per_second_cubed",
+   "id": 59
+  },
+  {
+   "group": "motion_magic",
+   "group_class": "MotionMagicConfigs",
+   "field": "motion_magic_expo_k_v",
+   "type": "float",
+   "default": 0.12,
+   "unit": "volts_per_rotation_per_second",
+   "id": 60
+  },
+  {
+   "group": "motion_magic",
+   "group_class": "MotionMagicConfigs",
+   "field": "motion_magic_expo_k_a",
+   "type": "float",
+   "default": 0.1,
+   "unit": "volts_per_rotation_per_second_squared",
+   "id": 61
+  },
+  {
+   "group": "custom_params",
+   "group_class": "CustomParamsConfigs",
+   "field": "custom_param0",
+   "type": "int",
+   "default": 0.0,
+   "id": 62
+  },
+  {
+   "group": "custom_params",
+   "group_class": "CustomParamsConfigs",
+   "field": "custom_param1",
+   "type": "int",
+   "default": 0.0,
+   "id": 63
+  },
+  {
+   "group": "closed_loop_general",
+   "group_class": "ClosedLoopGeneralConfigs",
+   "field": "continuous_wrap",
+   "type": "bool",
+   "default": false,
+   "id": 64
+  },
+  {
+   "group": "closed_loop_general",
+   "group_class": "ClosedLoopGeneralConfigs",
+   "field": "differential_continuous_wrap",
+   "type": "bool",
+   "default": false,
+   "id": 65
+  },
+  {
+   "group": "closed_loop_general",
+   "group_class": "ClosedLoopGeneralConfigs",
+   "field": "gain_sched_error_threshold",
+   "type": "float",
+   "default": 0.0,
+   "unit": "rotation",
+   "id": 66
+  },
+  {
+   "group": "closed_loop_general",
+   "group_class": "ClosedLoopGeneralConfigs",
+   "field": "gain_sched_kp_behavior",
+   "type": "enum",
+   "default": 0,
+   "enum": "GainSchedKpBehaviorValue",
+   "id": 67
+  },
+  {
+   "group": "slot0",
+   "group_class": "Slot0Configs",
+   "field": "k_p",
+   "type": "float",
+   "default": 0.0,
+   "id": 68
+  },
+  {
+   "group": "slot0",
+   "group_class": "Slot0Configs",
+   "field": "k_i",
+   "type": "float",
+   "default": 0.0,
+   "id": 69
+  },
+  {
+   "group": "slot0",
+   "group_class": "Slot0Configs",
+   "field": "k_d",
+   "type": "float",
+   "default": 0.0,
+   "id": 70
+  },
+  {
+   "group": "slot0",
+   "group_class": "Slot0Configs",
+   "field": "k_s",
+   "type": "float",
+   "default": 0.0,
+   "id": 71
+  },
+  {
+   "group": "slot0",
+   "group_class": "Slot0Configs",
+   "field": "k_v",
+   "type": "float",
+   "default": 0.0,
+   "id": 72
+  },
+  {
+   "group": "slot0",
+   "group_class": "Slot0Configs",
+   "field": "k_a",
+   "type": "float",
+   "default": 0.0,
+   "id": 73
+  },
+  {
+   "group": "slot0",
+   "group_class": "Slot0Configs",
+   "field": "k_g",
+   "type": "float",
+   "default": 0.0,
+   "id": 74
+  },
+  {
+   "group": "slot0",
+   "group_class": "Slot0Configs",
+   "field": "gravity_type",
+   "type": "enum",
+   "default": 0,
+   "enum": "GravityTypeValue",
+   "id": 75
+  },
+  {
+   "group": "slot0",
+   "group_class": "Slot0Configs",
+   "field": "static_feedforward_sign",
+   "type": "enum",
+   "default": 0,
+   "enum": "StaticFeedforwardSignValue",
+   "id": 76
+  },
+  {
+   "group": "slot0",
+   "group_class": "Slot0Configs",
+   "field": "gravity_arm_position_offset",
+   "type": "float",
+   "default": 0.0,
+   "unit": "rotation",
+   "id": 77
+  },
+  {
+   "group": "slot0",
+   "group_class": "Slot0Configs",
+   "field": "gain_sched_behavior",
+   "type": "enum",
+   "default": 0,
+   "enum": "GainSchedBehaviorValue",
+   "id": 78
+  },
+  {
+   "group": "slot1",
+   "group_class": "Slot1Configs",
+   "field": "k_p",
+   "type": "float",
+   "default": 0.0,
+   "id": 79
+  },
+  {
+   "group": "slot1",
+   "group_class": "Slot1Configs",
+   "field": "k_i",
+   "type": "float",
+   "default": 0.0,
+   "id": 80
+  },
+  {
+   "group": "slot1",
+   "group_class": "Slot1Configs",
+   "field": "k_d",
+   "type": "float",
+   "default": 0.0,
+   "id": 81
+  },
+  {
+   "group": "slot1",
+   "group_class": "Slot1Configs",
+   "field": "k_s",
+   "type": "float",
+   "default": 0.0,
+   "id": 82
+  },
+  {
+   "group": "slot1",
+   "group_class": "Slot1Configs",
+   "field": "k_v",
+   "type": "float",
+   "default": 0.0,
+   "id": 83
+  },
+  {
+   "group": "slot1",
+   "group_class": "Slot1Configs",
+   "field": "k_a",
+   "type": "float",
+   "default": 0.0,
+   "id": 84
+  },
+  {
+   "group": "slot1",
+   "group_class": "Slot1Configs",
+   "field": "k_g",
+   "type": "float",
+   "default": 0.0,
+   "id": 85
+  },
+  {
+   "group": "slot1",
+   "group_class": "Slot1Configs",
+   "field": "gravity_type",
+   "type": "enum",
+   "default": 0,
+   "enum": "GravityTypeValue",
+   "id": 86
+  },
+  {
+   "group": "slot1",
+   "group_class": "Slot1Configs",
+   "field": "static_feedforward_sign",
+   "type": "enum",
+   "default": 0,
+   "enum": "StaticFeedforwardSignValue",
+   "id": 87
+  },
+  {
+   "group": "slot1",
+   "group_class": "Slot1Configs",
+   "field": "gravity_arm_position_offset",
+   "type": "float",
+   "default": 0.0,
+   "unit": "rotation",
+   "id": 88
+  },
+  {
+   "group": "slot1",
+   "group_class": "Slot1Configs",
+   "field": "gain_sched_behavior",
+   "type": "enum",
+   "default": 0,
+   "enum": "GainSchedBehaviorValue",
+   "id": 89
+  },
+  {
+   "group": "slot2",
+   "group_class": "Slot2Configs",
+   "field": "k_p",
+   "type": "float",
+   "default": 0.0,
+   "id": 90
+  },
+  {
+   "group": "slot2",
+   "group_class": "Slot2Configs",
+   "field": "k_i",
+   "type": "float",
+   "default": 0.0,
+   "id": 91
+  },
+  {
+   "group": "slot2",
+   "group_class": "Slot2Configs",
+   "field": "k_d",
+   "type": "float",
+   "default": 0.0,
+   "id": 92
+  },
+  {
+   "group": "slot2",
+   "group_class": "Slot2Configs",
+   "field": "k_s",
+   "type": "float",
+   "default": 0.0,
+   "id": 93
+  },
+  {
+   "group": "slot2",
+   "group_class": "Slot2Configs",
+   "field": "k_v",
+   "type": "float",
+   "default": 0.0,
+   "id": 94
+  },
+  {
+   "group": "slot2",
+   "group_class": "Slot2Configs",
+   "field": "k_a",
+   "type": "float",
+   "default": 0.0,
+   "id": 95
+  },
+  {
+   "group": "slot2",
+   "group_class": "Slot2Configs",
+   "field": "k_g",
+   "type": "float",
+   "default": 0.0,
+   "id": 96
+  },
+  {
+   "group": "slot2",
+   "group_class": "Slot2Configs",
+   "field": "gravity_type",
+   "type": "enum",
+   "default": 0,
+   "enum": "GravityTypeValue",
+   "id": 97
+  },
+  {
+   "group": "slot2",
+   "group_class": "Slot2Configs",
+   "field": "static_feedforward_sign",
+   "type": "enum",
+   "default": 0,
+   "enum": "StaticFeedforwardSignValue",
+   "id": 98
+  },
+  {
+   "group": "slot2",
+   "group_class": "Slot2Configs",
+   "field": "gravity_arm_position_offset",
+   "type": "float",
+   "default": 0.0,
+   "unit": "rotation",
+   "id": 99
+  },
+  {
+   "group": "slot2",
+   "group_class": "Slot2Configs",
+   "field": "gain_sched_behavior",
+   "type": "enum",
+   "default": 0,
+   "enum": "GainSchedBehaviorValue",
+   "id": 100
+  }
+ ],
+ "signals": [
+  {
+   "name": "version_major",
+   "type": "int",
+   "id": 1
+  },
+  {
+   "name": "version_minor",
+   "type": "int",
+   "id": 2
+  },
+  {
+   "name": "version_bugfix",
+   "type": "int",
+   "id": 3
+  },
+  {
+   "name": "version_build",
+   "type": "int",
+   "id": 4
+  },
+  {
+   "name": "version",
+   "type": "int",
+   "id": 5
+  },
+  {
+   "name": "fault_field",
+   "type": "int",
+   "id": 6
+  },
+  {
+   "name": "sticky_fault_field",
+   "type": "int",
+   "id": 7
+  },
+  {
+   "name": "motor_voltage",
+   "type": "float",
+   "unit": "volt",
+   "id": 8
+  },
+  {
+   "name": "forward_limit",
+   "type": "enum",
+   "enum": "ForwardLimitValue",
+   "id": 9
+  },
+  {
+   "name": "reverse_limit",
+   "type": "enum",
+   "enum": "ReverseLimitValue",
+   "id": 10
+  },
+  {
+   "name": "applied_rotor_polarity",
+   "type": "enum",
+   "enum": "AppliedRotorPolarityValue",
+   "id": 11
+  },
+  {
+   "name": "duty_cycle",
+   "type": "float",
+   "id": 12
+  },
+  {
+   "name": "torque_current",
+   "type": "float",
+   "unit": "ampere",
+   "id": 13
+  },
+  {
+   "name": "stator_current",
+   "type": "float",
+   "unit": "ampere",
+   "id": 14
+  },
+  {
+   "name": "supply_current",
+   "type": "float",
+   "unit": "ampere",
+   "id": 15
+  },
+  {
+   "name": "supply_voltage",
+   "type": "float",
+   "unit": "volt",
+   "id": 16
+  },
+  {
+   "name": "device_temp",
+   "type": "float",
+   "unit": "celsius",
+   "id": 17
+  },
+  {
+   "name": "processor_temp",
+   "type": "float",
+   "unit": "celsius",
+   "id": 18
+  },
+  {
+   "name": "rotor_velocity",
+   "type": "float",
+   "unit": "rotations_per_second",
+   "id": 19
+  },
+  {
+   "name": "rotor_position",
+   "type": "float",
+   "unit": "rotation",
+   "id": 20
+  },
+  {
+   "name": "velocity",
+   "type": "float",
+   "unit": "rotations_per_second",
+   "id": 21
+  },
+  {
+   "name": "position",
+   "type": "float",
+   "unit": "rotation",
+   "id": 22
+  },
+  {
+   "name": "acceleration",
+   "type": "float",
+   "unit": "rotations_per_second_squared",
+   "id": 23
+  },
+  {
+   "name": "control_mode",
+   "type": "enum",
+   "enum": "ControlModeValue",
+   "id": 24
+  },
+  {
+   "name": "motion_magic_at_target",
+   "type": "bool",
+   "id": 25
+  },
+  {
+   "name": "motion_magic_is_running",
+   "type": "bool",
+   "id": 26
+  },
+  {
+   "name": "robot_enable",
+   "type": "enum",
+   "enum": "RobotEnableValue",
+   "id": 27
+  },
+  {
+   "name": "device_enable",
+   "type": "enum",
+   "enum": "DeviceEnableValue",
+   "id": 28
+  },
+  {
+   "name": "closed_loop_slot",
+   "type": "int",
+   "id": 29
+  },
+  {
+   "name": "motor_output_status",
+   "type": "enum",
+   "enum": "MotorOutputStatusValue",
+   "id": 30
+  },
+  {
+   "name": "differential_control_mode",
+   "type": "enum",
+   "enum": "DifferentialControlModeValue",
+   "id": 31
+  },
+  {
+   "name": "differential_average_velocity",
+   "type": "float",
+   "unit": "rotations_per_second",
+   "id": 32
+  },
+  {
+   "name": "differential_average_position",
+   "type": "float",
+   "unit": "rotation",
+   "id": 33
+  },
+  {
+   "name": "differential_difference_velocity",
+   "type": "float",
+   "unit": "rotations_per_second",
+   "id": 34
+  },
+  {
+   "name": "differential_difference_position",
+   "type": "float",
+   "unit": "rotation",
+   "id": 35
+  },
+  {
+   "name": "differential_closed_loop_slot",
+   "type": "int",
+   "id": 36
+  },
+  {
+   "name": "motor_kt",
+   "type": "float",
+   "unit": "newton_meters_per_ampere",
+   "id": 37
+  },
+  {
+   "name": "motor_kv",
+   "type": "float",
+   "unit": "rpm_per_volt",
+   "id": 38
+  },
+  {
+   "name": "motor_stall_current",
+   "type": "float",
+   "unit": "ampere",
+   "id": 39
+  },
+  {
+   "name": "bridge_output",
+   "type": "enum",
+   "enum": "BridgeOutputValue",
+   "id": 40
+  },
+  {
+   "name": "is_pro_licensed",
+   "type": "bool",
+   "id": 41
+  },
+  {
+   "name": "ancillary_device_temp",
+   "type": "float",
+   "unit": "celsius",
+   "id": 42
+  },
+  {
+   "name": "connected_motor",
+   "type": "enum",
+   "enum": "ConnectedMotorValue",
+   "id": 43
+  },
+  {
+   "name": "fault_hardware",
+   "type": "bool",
+   "id": 44
+  },
+  {
+   "name": "sticky_fault_hardware",
+   "type": "bool",
+   "id": 45
+  },
+  {
+   "name": "fault_proc_temp",
+   "type": "bool",
+   "id": 46
+  },
+  {
+   "name": "sticky_fault_proc_temp",
+   "type": "bool",
+   "id": 47
+  },
+  {
+   "name": "fault_device_temp",
+   "type": "bool",
+   "id": 48
+  },
+  {
+   "name": "sticky_fault_device_temp",
+   "type": "bool",
+   "id": 49
+  },
+  {
+   "name": "fault_undervoltage",
+   "type": "bool",
+   "id": 50
+  },
+  {
+   "name": "sticky_fault_undervoltage",
+   "type": "bool",
+   "id": 51
+  },
+  {
+   "name": "fault_boot_during_enable",
+   "type": "bool",
+   "id": 52
+  },
+  {
+   "name": "sticky_fault_boot_during_enable",
+   "type": "bool",
+   "id": 53
+  },
+  {
+   "name": "fault_unlicensed_feature_in_use",
+   "type": "bool",
+   "id": 54
+  },
+  {
+   "name": "sticky_fault_unlicensed_feature_in_use",
+   "type": "bool",
+   "id": 55
+  },
+  {
+   "name": "fault_bridge_brownout",
+   "type": "bool",
+   "id": 56
+  },
+  {
+   "name": "sticky_fault_bridge_brownout",
+   "type": "bool",
+   "id": 57
+  },
+  {
+   "name": "fault_remote_sensor_reset",
+   "type": "bool",
+   "id": 58
+  },
+  {
+   "name": "sticky_fault_remote_sensor_reset",
+   "type": "bool",
+   "id": 59
+  },
+  {
+   "name": "fault_missing_differential_fx",
+   "type": "bool",
+   "id": 60
+  },
+  {
+   "name": "sticky_fault_missing_differential_fx",
+   "type": "bool",
+   "id": 61
+  },
+  {
+   "name": "fault_remote_sensor_pos_overflow",
+   "type": "bool",
+   "id": 62
+  },
+  {
+   "name": "sticky_fault_remote_sensor_pos_overflow",
+   "type": "bool",
+   "id": 63
+  },
+  {
+   "name": "fault_over_supply_v",
+   "type": "bool",
+   "id": 64
+  },
+  {
+   "name": "sticky_fault_over_supply_v",
+   "type": "bool",
+   "id": 65
+  },
+  {
+   "name": "fault_unstable_supply_v",
+   "type": "bool",
+   "id": 66
+  },
+  {
+   "name": "sticky_fault_unstable_supply_v",
+   "type": "bool",
+   "id": 67
+  },
+  {
+   "name": "fault_reverse_hard_limit",
+   "type": "bool",
+   "id": 68
+  },
+  {
+   "name": "sticky_fault_reverse_hard_limit",
+   "type": "bool",
+   "id": 69
+  },
+  {
+   "name": "fault_forward_hard_limit",
+   "type": "bool",
+   "id": 70
+  },
+  {
+   "name": "sticky_fault_forward_hard_limit",
+   "type": "bool",
+   "id": 71
+  },
+  {
+   "name": "fault_reverse_soft_limit",
+   "type": "bool",
+   "id": 72
+  },
+  {
+   "name": "sticky_fault_reverse_soft_limit",
+   "type": "bool",
+   "id": 73
+  },
+  {
+   "name": "fault_forward_soft_limit",
+   "type": "bool",
+   "id": 74
+  },
+  {
+   "name": "sticky_fault_forward_soft_limit",
+   "type": "bool",
+   "id": 75
+  },
+  {
+   "name": "fault_missing_soft_limit_remote",
+   "type": "bool",
+   "id": 76
+  },
+  {
+   "name": "sticky_fault_missing_soft_limit_remote",
+   "type": "bool",
+   "id": 77
+  },
+  {
+   "name": "fault_missing_hard_limit_remote",
+   "type": "bool",
+   "id": 78
+  },
+  {
+   "name": "sticky_fault_missing_hard_limit_remote",
+   "type": "bool",
+   "id": 79
+  },
+  {
+   "name": "fault_remote_sensor_data_invalid",
+   "type": "bool",
+   "id": 80
+  },
+  {
+   "name": "sticky_fault_remote_sensor_data_invalid",
+   "type": "bool",
+   "id": 81
+  },
+  {
+   "name": "fault_fused_sensor_out_of_sync",
+   "type": "bool",
+   "id": 82
+  },
+  {
+   "name": "sticky_fault_fused_sensor_out_of_sync",
+   "type": "bool",
+   "id": 83
+  },
+  {
+   "name": "fault_stator_curr_limit",
+   "type": "bool",
+   "id": 84
+  },
+  {
+   "name": "sticky_fault_stator_curr_limit",
+   "type": "bool",
+   "id": 85
+  },
+  {
+   "name": "fault_supply_curr_limit",
+   "type": "bool",
+   "id": 86
+  },
+  {
+   "name": "sticky_fault_supply_curr_limit",
+   "type": "bool",
+   "id": 87
+  },
+  {
+   "name": "fault_using_fused_cancoder_while_unlicensed",
+   "type": "bool",
+   "id": 88
+  },
+  {
+   "name": "sticky_fault_using_fused_cancoder_while_unlicensed",
+   "type": "bool",
+   "id": 89
+  },
+  {
+   "name": "fault_static_brake_disabled",
+   "type": "bool",
+   "id": 90
+  },
+  {
+   "name": "sticky_fault_static_brake_disabled",
+   "type": "bool",
+   "id": 91
+  },
+  {
+   "name": "fault_rotor_fault1",
+   "type": "bool",
+   "id": 92
+  },
+  {
+   "name": "sticky_fault_rotor_fault1",
+   "type": "bool",
+   "id": 93
+  },
+  {
+   "name": "fault_rotor_fault2",
+   "type": "bool",
+   "id": 94
+  },
+  {
+   "name": "sticky_fault_rotor_fault2",
+   "type": "bool",
+   "id": 95
+  },
+  {
+   "name": "closed_loop_proportional_output",
+   "type": "float",
+   "id": 96
+  },
+  {
+   "name": "closed_loop_integrated_output",
+   "type": "float",
+   "id": 97
+  },
+  {
+   "name": "closed_loop_feed_forward",
+   "type": "float",
+   "id": 98
+  },
+  {
+   "name": "closed_loop_derivative_output",
+   "type": "float",
+   "id": 99
+  },
+  {
+   "name": "closed_loop_output",
+   "type": "float",
+   "id": 100
+  },
+  {
+   "name": "closed_loop_reference",
+   "type": "float",
+   "id": 101
+  },
+  {
+   "name": "closed_loop_reference_slope",
+   "type": "float",
+   "id": 102
+  },
+  {
+   "name": "closed_loop_error",
+   "type": "float",
+   "id": 103
+  },
+  {
+   "name": "differential_output",
+   "type": "float",
+   "id": 104
+  },
+  {
+   "name": "differential_closed_loop_proportional_output",
+   "type": "float",
+   "id": 105
+  },
+  {
+   "name": "differential_closed_loop_integrated_output",
+   "type": "float",
+   "id": 106
+  },
+  {
+   "name": "differential_closed_loop_feed_forward",
+   "type": "float",
+   "id": 107
+  },
+  {
+   "name": "differential_closed_loop_derivative_output",
+   "type": "float",
+   "id": 108
+  },
+  {
+   "name": "differential_closed_loop_output",
+   "type": "float",
+   "id": 109
+  },
+  {
+   "name": "differential_closed_loop_reference",
+   "type": "float",
+   "id": 110
+  },
+  {
+   "name": "differential_closed_loop_reference_slope",
+   "type": "float",
+   "id": 111
+  },
+  {
+   "name": "differential_closed_loop_error",
+   "type": "float",
+   "id": 112
+  }
+ ]
+}

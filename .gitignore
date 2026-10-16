@@ -6,3 +6,10 @@ twister-out*/
 # Editors
 .vscode/
 *.swp
+
+# Python
+__pycache__/
+*.egg-info/
+
+# Device state written by the Phoenix 6 simulation
+ctre_sim/

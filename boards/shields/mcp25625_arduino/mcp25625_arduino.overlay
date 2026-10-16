@@ -1,0 +1,52 @@
+/*
+ * Copyright (c) 2026 CANBusRP2040 contributors
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * MCP25625-E/SS CAN board wired to the Arduino R3 header of any board that
+ * provides the arduino_header and arduino_spi labels (most Nordic DKs, STM32
+ * Nucleo-64/144, NXP FRDM, ...):
+ *
+ *   MCP25625      Arduino header
+ *   --------      --------------
+ *   SCK           D13 (SPI SCK)
+ *   SI            D11 (SPI MOSI)
+ *   SO            D12 (SPI MISO)
+ *   CS            D10
+ *   INT           D2
+ *   STBY          D9 (remove standby-gpios if STBY is tied low on the board)
+ *   VIO           IOREF (the board's I/O voltage, usually 3.3 V)
+ *   VDD           5V (for the integrated CAN transceiver)
+ *   VSS           GND
+ *
+ * Adjust osc-freq to the crystal on your board, e.g. with an extra overlay:
+ *
+ *   &mcp25625_arduino { osc-freq = <20000000>; };
+ *
+ * 1 Mbit/s (FRC / Kraken CAN bus) needs a crystal of at least 16 MHz.
+ */
+
+#include <zephyr/dt-bindings/gpio/arduino-header-r3.h>
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include <freq.h>
+
+/ {
+	chosen {
+		zephyr,canbus = &mcp25625_arduino;
+	};
+};
+
+&arduino_spi {
+	status = "okay";
+	cs-gpios = <&arduino_header ARDUINO_HEADER_R3_D10 GPIO_ACTIVE_LOW>;
+
+	mcp25625_arduino: can@0 {
+		compatible = "microchip,mcp25625";
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_M(10)>;
+		osc-freq = <DT_FREQ_M(16)>;
+		int-gpios = <&arduino_header ARDUINO_HEADER_R3_D2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+		standby-gpios = <&arduino_header ARDUINO_HEADER_R3_D9 GPIO_ACTIVE_HIGH>;
+		bitrate = <1000000>;
+	};
+};

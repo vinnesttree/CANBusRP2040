@@ -9,3 +9,6 @@ common:
     - native_sim/native/64
 tests:
   canbus_rp2040.lib.slcan_uart: {}
+  canbus_rp2040.lib.slcan_uart.two_instances:
+    extra_configs:
+      - CONFIG_SLCAN_UART_INSTANCES=2

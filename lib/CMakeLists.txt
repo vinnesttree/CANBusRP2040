@@ -4,3 +4,4 @@
 add_subdirectory_ifdef(CONFIG_SLCAN slcan)
 add_subdirectory_ifdef(CONFIG_FRC_CAN frc_can)
 add_subdirectory_ifdef(CONFIG_KRAKEN kraken)
+add_subdirectory_ifdef(CONFIG_PHOENIX6 phoenix6)

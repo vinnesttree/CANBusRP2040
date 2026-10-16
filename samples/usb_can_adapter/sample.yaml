@@ -8,10 +8,18 @@ common:
     - can
     - usb
   build_only: true
-  extra_args: SHIELD=mcp25625_pico
-  platform_allow:
-    - rpi_pico
-  integration_platforms:
-    - rpi_pico
 tests:
-  sample.canbus_rp2040.usb_can_adapter: {}
+  sample.canbus_rp2040.usb_can_adapter:
+    extra_args: SHIELD=mcp25625_pico
+    platform_allow:
+      - rpi_pico
+      - rpi_pico2/rp2350a/m33
+    integration_platforms:
+      - rpi_pico
+  # Any board with an Arduino R3 header, e.g. Nordic, STM32 Nucleo, NXP FRDM
+  sample.canbus_rp2040.usb_can_adapter.arduino:
+    extra_args: SHIELD=mcp25625_arduino
+    platform_allow:
+      - nrf52840dk/nrf52840
+    modules:
+      - hal_nordic

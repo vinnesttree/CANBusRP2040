@@ -1,0 +1,19 @@
+/*
+ * Copyright (c) 2026 CANBusRP2040 contributors
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Two USB serial ports on any board with a USB device controller.
+ */
+
+&zephyr_udc0 {
+	slcan_cdc_acm: cdc_acm_uart0 {
+		compatible = "zephyr,cdc-acm-uart";
+		label = "slcan";
+	};
+
+	phoenix6_uart: cdc_acm_uart1 {
+		compatible = "zephyr,cdc-acm-uart";
+		label = "Phoenix 6 bridge";
+	};
+};

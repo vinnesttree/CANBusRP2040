@@ -1,0 +1,6 @@
+shields:
+  - name: mcp25625_arduino
+    full_name: MCP25625 CAN board wired to an Arduino R3 header
+    vendor: others
+    supported_features:
+      - can

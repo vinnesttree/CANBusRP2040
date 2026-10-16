@@ -23,6 +23,8 @@
 static const struct device *const can_dev = DEVICE_DT_GET(MCP25625_NODE);
 static const struct emul *const can_emul = EMUL_DT_GET(MCP25625_NODE);
 static const struct device *const uart_dev = DEVICE_DT_GET(DT_NODELABEL(euart0));
+static const struct device *const uart_b_dev = DEVICE_DT_GET(DT_NODELABEL(euart1));
+static const struct device *const can_b_dev = DEVICE_DT_GET(DT_NODELABEL(mcp25625_b));
 
 static atomic_t rx_events;
 
@@ -107,6 +109,34 @@ ZTEST(slcan_uart, test_end_to_end)
 
 	host_write("C\r");
 	host_expect("\r");
+}
+
+ZTEST(slcan_uart, test_instances)
+{
+#if CONFIG_SLCAN_UART_INSTANCES == 1
+	zassert_equal(slcan_uart_start(uart_b_dev, can_b_dev, NULL, NULL), -ENOMEM);
+#else
+	char buf[16] = {0};
+	size_t len = 0;
+	int64_t deadline;
+
+	/* A second UART bridges a second CAN controller */
+	zassert_ok(slcan_uart_start(uart_b_dev, can_b_dev, NULL, NULL));
+	zassert_equal(slcan_uart_start(uart_b_dev, can_b_dev, NULL, NULL), -EALREADY);
+
+	zassert_equal(uart_emul_put_rx_data(uart_b_dev, (const uint8_t *)"S6\rO\rV\rC\r", 9), 9);
+	deadline = k_uptime_get() + 500;
+	while (len < 9 && k_uptime_get() < deadline) {
+		len += uart_emul_get_tx_data(uart_b_dev, (uint8_t *)&buf[len],
+					     sizeof(buf) - 1 - len);
+		k_msleep(1);
+	}
+	zassert_str_equal(buf, "\r\rV0101\r\r");
+
+	/* The first instance is unaffected */
+	host_write("V\r");
+	host_expect("V0101\r");
+#endif
 }
 
 ZTEST_SUITE(slcan_uart, NULL, slcan_uart_setup, NULL, NULL, NULL);

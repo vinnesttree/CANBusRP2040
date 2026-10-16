@@ -1,0 +1,12 @@
+common:
+  tags:
+    - phoenix6
+  platform_allow:
+    - native_sim/native/64
+  integration_platforms:
+    - native_sim/native/64
+tests:
+  # Needs the host bridge on the other end of the pseudo terminal; run it with
+  # scripts/phoenix6_e2e.py. Twister only checks that it builds.
+  canbus_rp2040.e2e.phoenix6_sim:
+    build_only: true

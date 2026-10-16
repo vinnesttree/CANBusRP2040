@@ -1,0 +1,75 @@
+# Copyright (c) 2026 CANBusRP2040 contributors
+# SPDX-License-Identifier: Apache-2.0
+
+menuconfig PHOENIX6
+	bool "Phoenix 6 control requests through the host bridge"
+	depends on SERIAL
+	depends on SERIAL_SUPPORT_INTERRUPT
+	select UART_INTERRUPT_DRIVEN
+	select RING_BUFFER
+	select CRC
+	help
+	  Talon FX (Kraken X60/X44) control requests, configuration and status
+	  signals with the Phoenix 6 API, executed by the official Phoenix 6
+	  library on a host connected over a serial link (host/phoenix6_bridge).
+
+if PHOENIX6
+
+module = PHOENIX6
+module-str = phoenix6
+source "subsys/logging/Kconfig.template.log_config"
+
+config PHOENIX6_THREAD_STACK_SIZE
+	int "Client thread stack size"
+	default 2048
+
+config PHOENIX6_THREAD_PRIORITY
+	int "Client thread priority"
+	default 5
+
+config PHOENIX6_RX_BUF_SIZE
+	int "Receive buffer size"
+	default 1024
+
+config PHOENIX6_TX_BUF_SIZE
+	int "Transmit buffer size"
+	default 2048
+
+config PHOENIX6_TX_TIMEOUT_MS
+	int "Maximum time to wait for transmit buffer space"
+	default 50
+
+config PHOENIX6_MAX_PENDING
+	int "Requests waiting for an answer at the same time"
+	default 4
+	range 1 16
+
+config PHOENIX6_SIGNAL_CACHE_SIZE
+	int "Number of status signals cached"
+	default 32
+	range 1 255
+
+config PHOENIX6_LINK_TIMEOUT_MS
+	int "Link timeout in milliseconds"
+	default 500
+	help
+	  The link to the host bridge is considered lost when nothing was
+	  received for this time. The host bridge uses the same timeout and
+	  stops all motors when it expires.
+
+config PHOENIX6_KEEPALIVE_MS
+	int "Keepalive interval in milliseconds"
+	default 100
+	help
+	  Interval of the PING packets sent to the host bridge. The bridge
+	  answers each one, so both sides see traffic even when no other
+	  requests are answered (e.g. while only the enable is fed).
+
+config PHOENIX6_RESPONSE_MARGIN_MS
+	int "Extra time to wait for an answer in milliseconds"
+	default 200
+	help
+	  Added to the timeout passed to the Phoenix 6 call on the host to
+	  account for the serial link and the host.
+
+endif # PHOENIX6

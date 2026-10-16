@@ -23,6 +23,16 @@
 		reset-gpios = <&gpio0 12 GPIO_ACTIVE_LOW>;
 		bitrate = <1000000>;
 	};
+
+	/* Second controller for the multi-instance test */
+	mcp25625_b: can@1 {
+		compatible = "microchip,mcp25625";
+		reg = <1>;
+		spi-max-frequency = <10000000>;
+		osc-freq = <16000000>;
+		int-gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
+		bitrate = <500000>;
+	};
 };
 
 / {
@@ -30,6 +40,13 @@
 		compatible = "zephyr,uart-emul";
 		status = "okay";
 		tx-fifo-size = <2048>;
+		rx-fifo-size = <256>;
+	};
+
+	euart1: uart-emul1 {
+		compatible = "zephyr,uart-emul";
+		status = "okay";
+		tx-fifo-size = <256>;
 		rx-fifo-size = <256>;
 	};
 };
