@@ -1,0 +1,65 @@
+/*
+ * Copyright (c) 2026 CANBusRP2040 contributors
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * MCP25625-E/SS CAN board wired to the SPI0 pins of a Raspberry Pi Pico:
+ *
+ *   MCP25625      Pico
+ *   --------      ------------------
+ *   SCK           GP18 (SPI0 SCK)
+ *   SI            GP19 (SPI0 TX)
+ *   SO            GP16 (SPI0 RX)
+ *   CS            GP17 (GPIO chip select)
+ *   INT           GP20
+ *   STBY          GP21 (remove standby-gpios if STBY is tied low on the board)
+ *   VIO           3V3(OUT)  -- logic level must be 3.3 V, the RP2040 is not 5 V tolerant
+ *   VDD           VBUS (5 V for the integrated CAN transceiver)
+ *   VSS           GND
+ *
+ * Adjust osc-freq to the crystal on your board, e.g. with an extra overlay:
+ *
+ *   &mcp25625_pico { osc-freq = <20000000>; };
+ *
+ * 1 Mbit/s (FRC / Kraken CAN bus) needs a crystal of at least 16 MHz.
+ */
+
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include <freq.h>
+
+/ {
+	chosen {
+		zephyr,canbus = &mcp25625_pico;
+	};
+};
+
+&pinctrl {
+	/* SPI0 without the hardware chip select, which is driven as a GPIO */
+	mcp25625_pico_spi0: mcp25625_pico_spi0 {
+		group1 {
+			pinmux = <SPI0_SCK_P18>, <SPI0_TX_P19>;
+		};
+
+		group2 {
+			pinmux = <SPI0_RX_P16>;
+			input-enable;
+		};
+	};
+};
+
+&pico_spi {
+	status = "okay";
+	pinctrl-0 = <&mcp25625_pico_spi0>;
+	pinctrl-names = "default";
+	cs-gpios = <&pico_header 17 GPIO_ACTIVE_LOW>;
+
+	mcp25625_pico: can@0 {
+		compatible = "microchip,mcp25625";
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_M(10)>;
+		osc-freq = <DT_FREQ_M(16)>;
+		int-gpios = <&pico_header 20 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+		standby-gpios = <&pico_header 21 GPIO_ACTIVE_HIGH>;
+		bitrate = <1000000>;
+	};
+};

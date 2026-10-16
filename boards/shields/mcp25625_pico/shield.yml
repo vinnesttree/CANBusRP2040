@@ -1,0 +1,6 @@
+shields:
+  - name: mcp25625_pico
+    full_name: MCP25625 CAN board wired to a Raspberry Pi Pico
+    vendor: others
+    supported_features:
+      - can

@@ -1,0 +1,49 @@
+# Copyright (c) 2026 CANBusRP2040 contributors
+# SPDX-License-Identifier: Apache-2.0
+
+menuconfig KRAKEN
+	bool "Kraken X60 / X44 motor support"
+	select FRC_CAN
+	help
+	  Motor data and model, PWM control and a CAN bus monitor for
+	  WestCoast Products Kraken motors (Talon FX motor controller).
+
+if KRAKEN
+
+config KRAKEN_PWM
+	bool "PWM control"
+	default y
+	depends on PWM
+	help
+	  Drive a Kraken with RC-style PWM pulses (1-2 ms) on the wires that
+	  are otherwise used for CAN.
+
+config KRAKEN_PWM_PERIOD_US
+	int "PWM period in microseconds"
+	default 5000
+	range 2900 100000
+	depends on KRAKEN_PWM
+	help
+	  The Talon FX accepts PWM periods between 2.9 ms and 100 ms.
+
+config KRAKEN_CAN_MONITOR
+	bool "CAN bus monitor"
+	default y
+	depends on CAN
+	help
+	  Record which CTR Electronics devices (e.g. Kraken motors) are
+	  present on the CAN bus, and the robot controller heartbeat.
+
+config KRAKEN_CAN_MONITOR_MAX_DEVICES
+	int "Maximum number of devices tracked"
+	default 16
+	range 1 64
+	depends on KRAKEN_CAN_MONITOR
+
+config KRAKEN_CAN_MONITOR_API_IDS
+	int "Distinct API identifiers recorded per device"
+	default 8
+	range 1 32
+	depends on KRAKEN_CAN_MONITOR
+
+endif # KRAKEN

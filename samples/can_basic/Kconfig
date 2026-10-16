@@ -1,0 +1,12 @@
+# Copyright (c) 2026 CANBusRP2040 contributors
+# SPDX-License-Identifier: Apache-2.0
+
+mainmenu "MCP25625 basic CAN example"
+
+config SAMPLE_CAN_LOOPBACK
+	bool "Use internal loopback mode"
+	help
+	  Run the controller in loopback mode so the example works without a
+	  CAN bus (frames are received internally).
+
+source "Kconfig.zephyr"

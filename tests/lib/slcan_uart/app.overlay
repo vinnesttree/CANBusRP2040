@@ -1,0 +1,35 @@
+/*
+ * Copyright (c) 2026 CANBusRP2040 contributors
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/gpio/gpio.h>
+
+/ {
+	chosen {
+		zephyr,canbus = &mcp25625;
+	};
+};
+
+&spi0 {
+	mcp25625: can@0 {
+		compatible = "microchip,mcp25625";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+		osc-freq = <16000000>;
+		int-gpios = <&gpio0 10 GPIO_ACTIVE_LOW>;
+		standby-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
+		reset-gpios = <&gpio0 12 GPIO_ACTIVE_LOW>;
+		bitrate = <1000000>;
+	};
+};
+
+/ {
+	euart0: uart-emul0 {
+		compatible = "zephyr,uart-emul";
+		status = "okay";
+		tx-fifo-size = <2048>;
+		rx-fifo-size = <256>;
+	};
+};

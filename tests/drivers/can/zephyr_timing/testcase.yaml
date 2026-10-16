@@ -1,0 +1,14 @@
+common:
+  tags:
+    - drivers
+    - can
+  platform_allow:
+    - native_sim
+    - native_sim/native/64
+  integration_platforms:
+    - native_sim/native/64
+tests:
+  canbus_rp2040.drivers.can.zephyr_timing: {}
+  canbus_rp2040.drivers.can.zephyr_timing.all_bitrates:
+    extra_configs:
+      - CONFIG_TEST_ALL_BITRATES=y

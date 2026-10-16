@@ -1,0 +1,9 @@
+# Copyright (c) 2026 CANBusRP2040 contributors
+# SPDX-License-Identifier: Apache-2.0
+
+menu "CANBusRP2040"
+
+rsource "drivers/Kconfig"
+rsource "lib/Kconfig"
+
+endmenu

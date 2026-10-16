@@ -1,0 +1,19 @@
+sample:
+  name: MCP25625 basic CAN example
+  description: |
+    Sends a counter frame every second and prints all received frames using
+    the standard Zephyr CAN API on top of the MCP25625 driver.
+common:
+  tags:
+    - can
+  build_only: true
+  extra_args: SHIELD=mcp25625_pico
+  platform_allow:
+    - rpi_pico
+  integration_platforms:
+    - rpi_pico
+tests:
+  sample.canbus_rp2040.can_basic: {}
+  sample.canbus_rp2040.can_basic.loopback:
+    extra_configs:
+      - CONFIG_SAMPLE_CAN_LOOPBACK=y

@@ -1,0 +1,111 @@
+# Copyright (c) 2026 CANBusRP2040 contributors
+# SPDX-License-Identifier: Apache-2.0
+
+menuconfig SLCAN
+	bool "slcan (Lawicel / CANable) serial line CAN protocol"
+	depends on CAN
+	select POLL
+	help
+	  Implements the ASCII serial line CAN protocol used by CANable and
+	  Lawicel adapters, so a Zephyr CAN controller can be used as a
+	  USB-to-CAN adapter by Linux SocketCAN (slcand), python-can and
+	  similar tools.
+
+if SLCAN
+
+module = SLCAN
+module-str = slcan
+source "subsys/logging/Kconfig.template.log_config"
+
+config SLCAN_RX_QUEUE_SIZE
+	int "Receive queue size in frames"
+	default 64
+	help
+	  Number of received CAN frames buffered while waiting to be sent to
+	  the host. Frames are dropped (and reported with the F command and an
+	  "e1o" error message) when the queue is full.
+
+config SLCAN_TX_TIMEOUT_MS
+	int "Transmit timeout in milliseconds"
+	default 100
+	help
+	  How long a transmit command waits for a free CAN TX buffer before it
+	  is rejected with BEL.
+
+config SLCAN_CMD_ACK
+	bool "Acknowledge commands with CR / BEL"
+	default y
+	help
+	  Reply to each command with CR on success and BEL on failure, as
+	  Lawicel adapters do. The CANable slcan firmware sends no replies;
+	  disable this option to mimic it exactly.
+
+config SLCAN_TX_ACK
+	bool "Acknowledge transmit commands with z / Z"
+	help
+	  Reply to t/r commands with "z" and to T/R commands with "Z" instead
+	  of CR, as Lawicel CANUSB adapters do.
+
+config SLCAN_STATE_REPORTS
+	bool "Report CAN error state changes"
+	default y
+	help
+	  Send "s<state><rx errors><tx errors>" messages when the CAN
+	  controller changes error state. Recent Linux slcan drivers
+	  convert these into SocketCAN error frames.
+
+config SLCAN_ERROR_REPORTS
+	bool "Report lost frames"
+	default y
+	help
+	  Send an "e1o" message (RX overrun, as parsed by the Linux slcan
+	  driver) when received frames had to be dropped.
+
+config SLCAN_HW_VERSION
+	int "Hardware version reported by the V command"
+	default 1
+	range 0 99
+
+config SLCAN_SW_VERSION
+	int "Software version reported by the V command"
+	default 1
+	range 0 99
+
+config SLCAN_UART
+	bool "UART / USB CDC ACM transport"
+	default y
+	depends on SERIAL
+	depends on UART_INTERRUPT_DRIVEN
+	select RING_BUFFER
+	help
+	  Provide slcan_uart_start(), which runs the slcan protocol on a UART
+	  such as a USB CDC ACM instance.
+
+if SLCAN_UART
+
+config SLCAN_UART_THREAD_STACK_SIZE
+	int "Transport thread stack size"
+	default 1536
+
+config SLCAN_UART_THREAD_PRIORITY
+	int "Transport thread priority"
+	default 5
+
+config SLCAN_UART_RX_BUF_SIZE
+	int "Host to device buffer size"
+	default 512
+
+config SLCAN_UART_TX_BUF_SIZE
+	int "Device to host buffer size"
+	default 4096
+
+config SLCAN_UART_TX_TIMEOUT_MS
+	int "Maximum time to wait for the host to read output"
+	default 20
+	help
+	  Output is dropped when the host does not read it within this time,
+	  so a disconnected host cannot stall the adapter.
+
+endif # SLCAN_UART
+
+endif # SLCAN

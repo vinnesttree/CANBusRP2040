@@ -1,0 +1,62 @@
+# Copyright (c) 2026 CANBusRP2040 contributors
+# SPDX-License-Identifier: Apache-2.0
+
+config CAN_MCP25625
+	bool "Microchip MCP25625 CAN controller driver"
+	default y
+	depends on DT_HAS_MICROCHIP_MCP25625_ENABLED
+	select SPI
+	select GPIO
+	help
+	  Driver for the Microchip MCP25625 SPI CAN 2.0B controller with
+	  integrated CAN transceiver.
+
+if CAN_MCP25625
+
+config CAN_MCP25625_INT_THREAD_STACK_SIZE
+	int "Stack size of the interrupt handling thread"
+	default 1024
+	help
+	  Stack size of the driver thread that services the INT pin. CAN RX,
+	  TX completion and state change callbacks run on this thread, so
+	  increase this if the callbacks need more stack.
+
+config CAN_MCP25625_INT_THREAD_PRIO
+	int "Cooperative priority of the interrupt handling thread"
+	default 2
+	help
+	  Cooperative priority of the driver thread that services the INT
+	  pin. The MCP25625 only has two receive buffers, so this thread
+	  should run with a high priority to avoid receive overruns at high
+	  bus loads.
+
+config CAN_MCP25625_MAX_FILTERS
+	int "Maximum number of concurrent RX filters"
+	default 16
+	range 1 32
+	help
+	  Number of RX filters that can be installed with can_add_rx_filter().
+	  Filtering is done in software after the (optional) hardware
+	  acceptance filters.
+
+config CAN_MCP25625_STATE_POLL_INTERVAL_MS
+	int "Error state polling interval in milliseconds"
+	default 50
+	range 1 1000
+	help
+	  The MCP25625 only raises an interrupt when an error flag gets set,
+	  not when the controller recovers. While the controller is not in the
+	  error-active state, the driver polls the error flags at this
+	  interval so recovery (including automatic bus-off recovery) is
+	  reported through the state change callback.
+
+config EMUL_MCP25625
+	bool "MCP25625 emulator"
+	default y
+	depends on EMUL
+	depends on SPI_EMUL
+	depends on GPIO_EMUL
+	help
+	  SPI emulator for the MCP25625, used to test the driver on native_sim.
+
+endif # CAN_MCP25625

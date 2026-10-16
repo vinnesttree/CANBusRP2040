@@ -1,0 +1,76 @@
+# Copyright (c) 2026 CANBusRP2040 contributors
+# SPDX-License-Identifier: Apache-2.0
+
+description: |
+  Microchip MCP25625 CAN 2.0B controller with integrated high-speed CAN
+  transceiver, connected over SPI.
+
+  The CAN controller part of the MCP25625 is register compatible with the
+  stand-alone MCP2515. The integrated transceiver is controlled through the
+  STBY pin (high = standby, low = normal operation).
+
+  Example (Raspberry Pi Pico, SPI0):
+
+    &spi0 {
+      status = "okay";
+      cs-gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;
+
+      mcp25625: can@0 {
+        compatible = "microchip,mcp25625";
+        reg = <0>;
+        spi-max-frequency = <DT_FREQ_M(10)>;
+        osc-freq = <DT_FREQ_M(16)>;
+        int-gpios = <&gpio0 20 GPIO_ACTIVE_LOW>;
+        standby-gpios = <&gpio0 21 GPIO_ACTIVE_HIGH>;
+        bitrate = <1000000>;
+      };
+    };
+
+compatible: "microchip,mcp25625"
+
+include: [spi-device.yaml, can-controller.yaml]
+
+properties:
+  osc-freq:
+    type: int
+    required: true
+    description: |
+      Frequency of the oscillator/crystal connected to OSC1/OSC2 in Hz.
+      Common values on breakout boards are 8, 16 and 20 MHz. The MCP25625
+      CAN core runs from osc-freq / 2.
+
+  int-gpios:
+    type: phandle-array
+    required: true
+    description: |
+      Interrupt (INT) pin. The MCP25625 drives this pin low when an enabled
+      interrupt is pending, so it is normally described as GPIO_ACTIVE_LOW.
+
+  standby-gpios:
+    type: phandle-array
+    description: |
+      Optional GPIO connected to the STBY pin of the integrated transceiver.
+      The pin is asserted (transceiver in standby) while the CAN controller is
+      stopped and de-asserted while it is started. The MCP25625 enters standby
+      when STBY is high, so this is normally GPIO_ACTIVE_HIGH. Omit this
+      property if STBY is tied low on the board.
+
+  reset-gpios:
+    type: phandle-array
+    description: |
+      Optional GPIO connected to the RESET pin (active low). If present, the
+      driver pulses it during initialization in addition to the SPI RESET
+      instruction.
+
+  clkout-prescaler:
+    type: int
+    default: 0
+    enum:
+      - 0
+      - 1
+      - 2
+      - 4
+      - 8
+    description: |
+      Configure the CLKOUT pin to output the oscillator frequency divided by
+      the given value. 0 (the default) disables CLKOUT.

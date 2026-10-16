@@ -1,0 +1,8 @@
+# Copyright (c) 2026 CANBusRP2040 contributors
+# SPDX-License-Identifier: Apache-2.0
+
+config FRC_CAN
+	bool "FIRST CAN identifier and heartbeat helpers"
+	help
+	  Helpers for the publicly documented FIRST (FRC/FTC) CAN identifier
+	  layout, broadcast messages and universal heartbeat.

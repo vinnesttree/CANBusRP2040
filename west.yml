@@ -1,0 +1,27 @@
+# Copyright (c) 2026 CANBusRP2040 contributors
+# SPDX-License-Identifier: Apache-2.0
+#
+# West manifest for a workspace containing this module, Zephyr and the
+# modules needed for the Raspberry Pi Pico (RP2040):
+#
+#   west init -m https://github.com/vinnesttree/CANBusRP2040 --mr <branch> workspace
+#   cd workspace && west update
+
+manifest:
+  self:
+    path: canbus-rp2040
+
+  remotes:
+    - name: zephyrproject-rtos
+      url-base: https://github.com/zephyrproject-rtos
+
+  projects:
+    - name: zephyr
+      remote: zephyrproject-rtos
+      revision: v4.4.2
+      import:
+        # Only fetch the modules required for RP2040 / RP2350 targets
+        name-allowlist:
+          - cmsis
+          - cmsis_6
+          - hal_rpi_pico

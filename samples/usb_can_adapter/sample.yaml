@@ -1,0 +1,17 @@
+sample:
+  name: CANable-style slcan USB-to-CAN adapter
+  description: |
+    Turns a Raspberry Pi Pico with an MCP25625 CAN board into a USB-to-CAN
+    adapter that speaks the CANable / Lawicel slcan protocol.
+common:
+  tags:
+    - can
+    - usb
+  build_only: true
+  extra_args: SHIELD=mcp25625_pico
+  platform_allow:
+    - rpi_pico
+  integration_platforms:
+    - rpi_pico
+tests:
+  sample.canbus_rp2040.usb_can_adapter: {}
